@@ -1,0 +1,577 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 6 may. 2026, 08:18:42
+    Author     : EDWIN
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* HEADER */
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+    background: #1e3f28;
+}
+
+.encabezado h1 {
+    background: linear-gradient(90deg, rgb(193, 219, 161), #9a9898);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* LOGO */
+.logotipo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logotipo h1 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* NAV */
+.nav {
+    display: flex;
+    gap: 25px;
+}
+
+.nav a {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s;
+    background: linear-gradient(90deg, rgb(139, 226, 202), #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav a:hover {
+    color: #a8e6a1;
+}
+
+/* ocultar checkbox */
+#modoOscuroToggle {
+    display: none;
+}
+
+/* HERO */
+.hero {
+    position: relative;
+    height: 90vh;
+    background: url('../img/imagencentralinicio.jpeg') center/cover no-repeat;
+    filter: brightness(2.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* capa oscura */
+.hero-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+/* contenido */
+.hero-contenido {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 700px;
+    padding: 20px;
+}
+
+/* título */
+.hero-contenido h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+/* texto */
+.hero-contenido p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* botones */
+.hero-botones {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-principal {
+    background: #024e3a;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-principal:hover {
+    background: #36b864;
+    transform: scale(1.05);
+}
+
+.btn-secundario {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-secundario:hover {
+    background: white;
+    color: black;
+}
+
+/* animación suave */
+.hero-contenido {
+    animation: fadeUp 1s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.whatsapp-carrusel a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #8ed9ac;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.whatsapp-carrusel img {
+    width: 30px;
+    height: 30px;
+}
+
+.whatsapp-carrusel a:hover {
+    transform: scale(1.1);
+}
+
+/* modo claro */
+.pagina {
+    background: rgb(226, 225, 225);
+    color: black;
+    min-height: 100vh;
+}
+
+/* modo oscuro */
+/* 🌙 MODO OSCURO BASE */
+#modoOscuroToggle:checked~.pagina {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+/* HEADER */
+#modoOscuroToggle:checked~.pagina .encabezado {
+    background: #0f2a1d;
+}
+
+/* NAV */
+#modoOscuroToggle:checked~.pagina .nav a {
+    color: #e0e0e0;
+}
+
+/* NOSOTROS */
+#modoOscuroToggle:checked~.pagina .nosotros {
+    background: linear-gradient(135deg, #1a1a1a, #0f2a1d);
+}
+
+/* TEXTO */
+#modoOscuroToggle:checked~.pagina p {
+    color: #ccc;
+}
+
+/* FOOTER */
+#modoOscuroToggle:checked~.pagina .footer {
+    background: #0f2a1d;
+}
+
+label[for="modoOscuroToggle"] {
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+/* SECCIÓN NOSOTROS */
+.nosotros {
+    padding: 40px 10% 80px 10%;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+
+.nosotros-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.nosotros-header h2 {
+    font-size: 36px;
+    color: #1e3f28;
+}
+
+.nosotros-texto h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #1e3f28;
+    line-height: 1.6;
+}
+
+.nosotros-texto p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.nosotros-texto {
+    flex: 1;
+}
+
+/* contenido */
+.nosotros-contenido {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.nosotros-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+}
+
+.nosotros-extra {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nosotros-img {
+    flex: 1;
+}
+
+.nosotros-img img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s ease;
+    filter: brightness(0.9) contrast(1.1);
+    transform: scale(1);
+}
+
+.nosotros-img img:hover {
+    transform: scale(1.08) rotate(1deg);
+    filter: brightness(1.1) saturate(1.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.mvv {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* cards */
+.card-mvv {
+    background: linear-gradient(135deg, rgba(193, 237, 196, 0.8), rgba(209, 199, 170, 0.7), rgba(217, 222, 221, 0.6));
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-mvv i {
+    font-size: 35px;
+    color: #2f5d3a;
+    margin-bottom: 15px;
+}
+
+.card-mvv h3 {
+    margin-bottom: 10px;
+    color: #1e3f28;
+}
+
+.card-mvv p {
+    font-size: 14px;
+    color: #555;
+}
+
+.card-mvv:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+    background: linear-gradient(135deg, #2f5d3a, #1e3f28);
+    color: white;
+    padding: 40px 60px;
+    border-top: 4px solid #8ee38e;
+}
+
+/* footer contenedor */
+
+.footer-contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* redes a la derecha */
+.footer-redes {
+    align-self: center;
+    margin-top: 10px;
+}
+
+/* info izquierda */
+
+.footer-info img {
+    margin-bottom: 10px;
+}
+
+.frase {
+    font-size: 15px;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.copyright {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* redes derecha */
+
+
+.footer-redes h3 {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* iconos */
+
+.redes {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.redes a {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.redes img {
+    width: 22px;
+}
+
+/* animación */
+
+.redes a:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+/* RESPONSIVO */
+/* ========================= */
+/* 📱 TABLETS */
+/* ========================= */
+@media (max-width:1024px) {
+
+    .encabezado {
+        padding: 15px 20px;
+    }
+
+    .hero-contenido h1 {
+        font-size: 36px;
+    }
+
+    .hero-contenido p {
+        font-size: 16px;
+    }
+
+    .mvv {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ========================= */
+/* 📱 CELULARES */
+/* ========================= */
+@media (max-width:768px) {
+
+    /* HEADER (mantiene estructura pero compacto) */
+    .encabezado {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 30px;
+        gap: 15px;
+    }
+
+    .logotipo {
+        flex: 1;
+        width: 100%;
+    }
+
+    .nav {
+        flex: 2;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
+    }
+
+    .nav a {
+        font-size: 14px !important;
+        gap: 15px;
+        letter-spacing: 1px;
+    }
+
+    .modooscuro {
+        margin-left: 10px;
+        align-self: flex-end;
+        margin-top: -30px;
+    }
+
+    label[for="modoOscuroToggle"] {
+        margin-left: auto;
+    }
+
+    /* HERO */
+    .hero {
+        height: 70vh;
+    }
+
+    .hero-contenido h1 {
+        font-size: 28px;
+    }
+
+    .hero-contenido p {
+        font-size: 14px;
+    }
+
+    /* NOSOTROS */
+    .nosotros {
+        padding: 40px 5%;
+    }
+
+    .nosotros-contenido {
+        flex-direction: column;
+        /* 🔥 clave */
+        text-align: center;
+    }
+
+    .nosotros-img img {
+        max-width: 100%;
+    }
+
+    /* MVV */
+    .mvv {
+        grid-template-columns: 1fr;
+    }
+
+    /* FOOTER */
+    .footer {
+        padding: 25px 20px;
+    }
+
+    .footer-contenedor {
+        gap: 15px;
+    }
+
+    .redes {
+        justify-content: center;
+    }
+}
+
+/* ========================= */
+/* 📱 CELULARES PEQUEÑOS */
+/* ========================= */
+@media (max-width:480px) {
+
+    .hero {
+        height: 60vh;
+    }
+
+    .hero-contenido h1 {
+        font-size: 22px;
+    }
+
+    .hero-contenido p {
+        font-size: 13px;
+    }
+
+    .btn-principal,
+    .btn-secundario {
+        padding: 10px 18px;
+        font-size: 13px;
+    }
+
+    .nav {
+        gap: 10px;
+    }
+
+    .nav a {
+        font-size: 12px;
+    }
+}
