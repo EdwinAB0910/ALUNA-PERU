@@ -1,0 +1,375 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 7 may. 2026, 11:47:49
+    Author     : EDWIN
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* HEADER */
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+    background: #1e3f28;
+}
+
+.encabezado h1 {
+    background: linear-gradient(90deg, rgb(193, 219, 161), #9a9898);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* LOGO */
+.logotipo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logotipo h1 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* NAV */
+.nav {
+    display: flex;
+    gap: 25px;
+}
+
+.nav a {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s;
+    background: linear-gradient(90deg, rgb(139, 226, 202), #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav a:hover {
+    color: #a8e6a1;
+}
+
+/* ocultar checkbox */
+#modoOscuroToggle {
+    display: none;
+}
+
+/* modo claro */
+.pagina {
+    background: rgb(226, 225, 225);
+    color: black;
+    min-height: 100vh;
+}
+
+/* modo oscuro */
+#modoOscuroToggle:checked~.pagina {
+    background: #121212;
+    color: white;
+}
+
+label[for="modoOscuroToggle"] {
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+/* MODO OSCURO */
+#modoOscuroToggle:checked~* {
+    background: #121212;
+    color: white;
+}
+
+/* Main general */
+main {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título */
+main h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #2f5d3a;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2f5d3a;
+    color: white;
+    padding: 15px 40px;
+}
+
+/* redes sociales */
+.redes {
+    display: flex;
+    gap: 15px;
+}
+
+.redes img {
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* efecto al pasar el mouse */
+.redes img:hover {
+    transform: scale(1.2);
+}
+
+.footer {
+    background: linear-gradient(135deg, #2f5d3a, #1e3f28);
+    color: white;
+    padding: 40px 60px;
+    border-top: 4px solid #8ee38e;
+}
+
+/* contenedor */
+
+.footer-contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* redes a la derecha */
+.footer-redes {
+    align-self: center;
+    margin-top: 10px;
+}
+
+/* info izquierda */
+
+.footer-info img {
+    margin-bottom: 10px;
+}
+
+.frase {
+    font-size: 15px;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.copyright {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* redes derecha */
+
+
+.footer-redes h3 {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* iconos */
+
+.redes {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.redes a {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.redes img {
+    width: 22px;
+}
+
+/* animación */
+
+.redes a:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.pagina {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.whatsapp-carrusel a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #8ed9ac;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.whatsapp-carrusel img {
+    width: 30px;
+    height: 30px;
+}
+
+.whatsapp-carrusel a:hover {
+    transform: scale(1.1);
+}
+
+/* RESPONSIVO */
+/* TABLET */
+
+@media (max-width:1024px) {
+
+    .encabezado {
+        padding: 15px 20px;
+    }
+
+    .logotipo h1 {
+        font-size: 20px;
+    }
+
+    main h2 {
+        font-size: 28px;
+    }
+
+    .imagencentral {
+        height: 60vh;
+    }
+
+    .imagencentraltexto h2 {
+        font-size: 32px;
+    }
+
+    .slide img {
+        width: 200px;
+    }
+
+}
+
+/* CELULARES */
+/* ========================= */
+@media (max-width:768px) {
+
+    .encabezado {
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: normal;
+    }
+
+    .nav {
+        flex-direction: row;
+        margin-right: auto;
+    }
+
+    label[for="modoOscuroToggle"] {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    main{
+        margin-top: -10px;
+    }
+
+    /* IMAGEN CENTRAL */
+
+    .imagencentral {
+        height: 50vh;
+        padding: 20px;
+    }
+
+    .imagencentraltexto h2 {
+        font-size: 26px;
+    }
+
+    /* CATALOGO */
+
+    .catalogo {
+        padding: 20px;
+    }
+
+    .slide img {
+        width: 160px;
+    }
+
+    /* FOOTER */
+
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .redes {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .footer-contenedor {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-redes {
+        text-align: center;
+    }
+
+    .redes {
+        justify-content: center;
+    }
+
+}
+
+/* ========================= */
+/* CELULARES PEQUEÑOS */
+/* ========================= */
+
+@media (max-width:480px) {
+
+    main h2 {
+        font-size: 24px;
+    }
+
+    .imagencentraltexto h2 {
+        font-size: 22px;
+    }
+
+    .slide img {
+        width: 130px;
+    }
+
+}
