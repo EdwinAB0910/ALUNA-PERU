@@ -20,6 +20,15 @@
             }
         </script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+        <style>
+
+            .glass{
+                backdrop-filter: blur(14px);
+                background: rgba(255,255,255,.12);
+            }
+
+        </style>
     </head>
 
     <body class="font-serif bg-gray-200 dark:bg-gray-900 dark:text-white overflow-x-hidden transition duration-300">
@@ -36,7 +45,8 @@
                     </h1>
                 </div>
 
-                <nav class="flex flex-wrap justify-center gap-6 mt-4 md:mt-0">
+                <nav class="flex flex-wrap justify-center gap-6 mt-4 md:mt-0 items-center">
+
                     <a href="${pageContext.request.contextPath}/inicio"
                        class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
                         Inicio
@@ -56,6 +66,62 @@
                        class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
                         Ubicación
                     </a>
+
+                    <%
+                        modelo.Usuario u
+                                = (modelo.Usuario) session.getAttribute("usuario");
+                    %>
+
+                    <div class="flex gap-3 ml-6 items-center">
+
+                        <% if (u == null) { %>
+
+                        <!-- SI NO HAY SESION -->
+
+                        <button onclick="openLogin()"
+                                class="px-4 py-2 rounded-full border border-white text-white hover:bg-white hover:text-black transition">
+
+                            Login
+
+                        </button>
+
+                        <button onclick="openRegister()"
+                                class="px-4 py-2 rounded-full bg-green-500 text-white hover:bg-green-600 transition">
+
+                            Sign In
+
+                        </button>
+
+                        <% } else {%>
+
+                        <!-- SI EL USUARIO INICIO SESION -->
+
+                        <span class="text-white font-semibold">
+                            Hola, <%= u.getNombres()%>
+                        </span>
+
+                        <% if (u.getIdRol() == 1) { %>
+
+                        <a href="admin.jsp"
+                           class="px-4 py-2 rounded-full bg-cyan-500 text-white hover:bg-cyan-600 transition">
+
+                            Admin
+
+                        </a>
+
+                        <% } %>
+
+                        <a href="LogoutServlet"
+                           class="px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+
+                            Salir
+
+                        </a>
+
+                        <% }%>
+
+                    </div>
+
                 </nav>
 
                 <button onclick="document.documentElement.classList.toggle('dark')"
@@ -188,10 +254,122 @@
             </footer>
 
             <!-- WHATSAPP -->
-            <a href="https://wa.me/51967203776"
-               class="fixed bottom-8 right-5 bg-green-400 p-4 rounded-full shadow-xl hover:scale-110 transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="w-8">
-            </a>
+            <div class="fixed bottom-8 right-5 z-50">
+                <a href="https://wa.me/51967203776"
+                   class="fixed bottom-8 right-5 bg-green-400 p-4 rounded-full shadow-xl hover:scale-110 transition">
+                    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="w-8">
+                </a>
 
-        </div>
+            </div>
+            <div id="modalBg"
+                 class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
+
+                <!-- LOGIN -->
+                <div id="loginModal"
+                     class="hidden glass p-10 rounded-3xl w-[420px] text-white shadow-2xl relative border border-white/20">
+
+                    <button onclick="closeModal()"
+                            class="absolute top-4 right-5 text-white text-2xl">
+                        ✕
+                    </button>
+
+                    <h2 class="text-4xl font-bold text-center mb-8">
+                        Bienvenido
+                    </h2>
+
+                    <form action="LoginServlet" method="post" class="space-y-5">
+
+                        <input type="email"
+                               name="email"
+                               placeholder="Correo"
+                               required
+                               class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                        <input type="password"
+                               name="clave"
+                               placeholder="Contraseña"
+                               required
+                               class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                        <button type="submit"
+                                class="w-full bg-green-500 py-4 rounded-2xl font-bold hover:bg-green-600 transition">
+                            Iniciar Sesión
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <!-- REGISTER -->
+                <div id="registerModal"
+                     class="hidden glass p-10 rounded-3xl w-[420px] text-white shadow-2xl relative border border-white/20">
+
+                    <button onclick="closeModal()"
+                            class="absolute top-4 right-5 text-white text-2xl">
+                        ✕
+                    </button>
+
+                    <h2 class="text-4xl font-bold text-center mb-8">
+                        Crear Cuenta
+                    </h2>
+
+                    <form action="RegistroServlet" method="post" class="space-y-4">
+
+                        <input type="text"
+                               name="nombres"
+                               placeholder="Nombres"
+                               required
+                               class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                        <input type="text"
+                               name="apellidos"
+                               placeholder="Apellidos"
+                               required
+                               class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                        <input type="email"
+                               name="email"
+                               placeholder="Correo"
+                               required
+                               class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                        <input type="password"
+                               name="clave"
+                               placeholder="Contraseña"
+                               required
+                               class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                        <button type="submit"
+                                class="w-full bg-cyan-500 py-4 rounded-2xl font-bold hover:bg-cyan-600 transition">
+                            Registrarme
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <script>
+
+                function openLogin() {
+                    document.getElementById("modalBg").classList.remove("hidden");
+                    document.getElementById("loginModal").classList.remove("hidden");
+                    document.getElementById("registerModal").classList.add("hidden");
+                }
+
+                function openRegister() {
+                    document.getElementById("modalBg").classList.remove("hidden");
+                    document.getElementById("registerModal").classList.remove("hidden");
+                    document.getElementById("loginModal").classList.add("hidden");
+                }
+
+                function closeModal() {
+                    document.getElementById("modalBg").classList.add("hidden");
+                }
+
+            </script>
     </body>
+
+</html>
+

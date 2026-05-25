@@ -121,7 +121,7 @@
     <body class="dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
 
         <!-- HEADER -->
-        <header class="flex flex-col md:flex-row items-center justify-between border-b-4 border-green-300 px-8 py-4 bg-green-900 sticky top-0 z-50">
+        <header class="font-serif flex flex-col md:flex-row items-center justify-between border-b-4 border-green-300 px-8 py-4 bg-green-900 sticky top-0 z-50">
 
             <div class="flex items-center gap-3">
                 <img src="img/LogoAluna.png" alt="Logo" class="w-20">
@@ -132,7 +132,7 @@
                 </h1>
             </div>
 
-            <nav class="flex flex-wrap justify-center gap-6 mt-4 md:mt-0">
+            <nav class="flex flex-wrap justify-center gap-6 mt-4 md:mt-0 items-center">
 
                 <a href="${pageContext.request.contextPath}/inicio"
                    class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
@@ -154,6 +154,61 @@
                     Ubicación
                 </a>
 
+                <%
+                    modelo.Usuario u
+                            = (modelo.Usuario) session.getAttribute("usuario");
+                %>
+
+                <div class="flex gap-3 ml-6 items-center">
+
+                    <% if (u == null) { %>
+
+                    <!-- SI NO HAY SESION -->
+
+                    <button onclick="openLogin()"
+                            class="px-4 py-2 rounded-full border border-white text-white hover:bg-white hover:text-black transition">
+
+                        Login
+
+                    </button>
+
+                    <button onclick="openRegister()"
+                            class="px-4 py-2 rounded-full bg-green-500 text-white hover:bg-green-600 transition">
+
+                        Sign In
+
+                    </button>
+
+                    <% } else {%>
+
+                    <!-- SI EL USUARIO INICIO SESION -->
+
+                    <span class="text-white font-semibold">
+                        Hola, <%= u.getNombres()%>
+                    </span>
+
+                    <% if (u.getIdRol() == 1) { %>
+
+                    <a href="admin.jsp"
+                       class="px-4 py-2 rounded-full bg-cyan-500 text-white hover:bg-cyan-600 transition">
+
+                        Admin
+
+                    </a>
+
+                    <% } %>
+
+                    <a href="LogoutServlet"
+                       class="px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+
+                        Salir
+
+                    </a>
+
+                    <% } %>
+
+                </div>
+
             </nav>
 
             <button onclick="document.documentElement.classList.toggle('dark')"
@@ -164,7 +219,7 @@
         </header>
 
         <!-- HERO -->
-        <section class="hero flex items-center justify-center text-center px-6" style="background-image: url('img/Helecho cola de zorro.jpeg');">>
+        <section class="hero flex items-center justify-center text-center px-6" style="background-image: url('img/Helecho cola de zorro.jpeg');">
 
             <div class="glass rounded-[35px] px-10 py-14 text-white max-w-4xl shadow-2xl">
 
@@ -414,59 +469,120 @@
 
         </div>
 
-        <!-- SCRIPT -->
+        <div id="modalBg"
+             class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
+
+            <!-- LOGIN -->
+            <div id="loginModal"
+                 class="hidden glass p-10 rounded-3xl w-[420px] text-white shadow-2xl relative border border-white/20">
+
+                <button onclick="closeModal()"
+                        class="absolute top-4 right-5 text-white text-2xl">
+                    ✕
+                </button>
+
+                <h2 class="text-4xl font-bold text-center mb-8">
+                    Bienvenido
+                </h2>
+
+                <form action="LoginServlet" method="post" class="space-y-5">
+
+                    <input type="email"
+                           name="email"
+                           placeholder="Correo"
+                           required
+                           class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                    <input type="password"
+                           name="clave"
+                           placeholder="Contraseña"
+                           required
+                           class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                    <button type="submit"
+                            class="w-full bg-green-500 py-4 rounded-2xl font-bold hover:bg-green-600 transition">
+                        Iniciar Sesión
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- REGISTER -->
+            <div id="registerModal"
+                 class="hidden glass p-10 rounded-3xl w-[420px] text-white shadow-2xl relative border border-white/20">
+
+                <button onclick="closeModal()"
+                        class="absolute top-4 right-5 text-white text-2xl">
+                    ✕
+                </button>
+
+                <h2 class="text-4xl font-bold text-center mb-8">
+                    Crear Cuenta
+                </h2>
+
+                <form action="RegistroServlet" method="post" class="space-y-4">
+
+                    <input type="text"
+                           name="nombres"
+                           placeholder="Nombres"
+                           required
+                           class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                    <input type="text"
+                           name="apellidos"
+                           placeholder="Apellidos"
+                           required
+                           class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                    <input type="email"
+                           name="email"
+                           placeholder="Correo"
+                           required
+                           class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                    <input type="password"
+                           name="clave"
+                           placeholder="Contraseña"
+                           required
+                           class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                    <button type="submit"
+                            class="w-full bg-cyan-500 py-4 rounded-2xl font-bold hover:bg-cyan-600 transition">
+                        Registrarme
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
         <script>
 
-            const buscador = document.getElementById("buscador");
-            const filtroPrecio = document.getElementById("filtroPrecio");
-            const filtroCategoria = document.getElementById("filtroCategoria");
+            function openLogin() {
 
-            const plantas = document.querySelectorAll(".planta-item");
+                document.getElementById("modalBg").classList.remove("hidden");
+                document.getElementById("modalBg").classList.add("flex");
 
-            function filtrarPlantas() {
-
-                const texto = buscador.value.toLowerCase();
-                const precioFiltro = filtroPrecio.value;
-                const categoriaFiltro = filtroCategoria.value;
-
-                plantas.forEach(planta => {
-
-                    const nombre = planta.dataset.nombre;
-                    const precio = parseFloat(planta.dataset.precio);
-                    const categoria = planta.dataset.categoria;
-
-                    let coincideTexto = nombre.includes(texto);
-                    let coincidePrecio = true;
-                    let coincideCategoria = true;
-
-                    // FILTRO PRECIO
-                    if (precioFiltro === "bajo") {
-                        coincidePrecio = precio < 50;
-                    }
-
-                    if (precioFiltro === "medio") {
-                        coincidePrecio = precio >= 50 && precio <= 100;
-                    }
-
-                    // FILTRO CATEGORIA
-                    if (categoriaFiltro !== "todos") {
-                        coincideCategoria = categoria === categoriaFiltro;
-                    }
-
-                    planta.style.display =
-                            coincideTexto &&
-                            coincidePrecio &&
-                            coincideCategoria
-                            ? "block"
-                            : "none";
-
-                });
-
+                document.getElementById("loginModal").classList.remove("hidden");
+                document.getElementById("registerModal").classList.add("hidden");
             }
 
-            buscador.addEventListener("keyup", filtrarPlantas);
-            filtroPrecio.addEventListener("change", filtrarPlantas);
-            filtroCategoria.addEventListener("change", filtrarPlantas);
+            function openRegister() {
+
+                document.getElementById("modalBg").classList.remove("hidden");
+                document.getElementById("modalBg").classList.add("flex");
+
+                document.getElementById("registerModal").classList.remove("hidden");
+                document.getElementById("loginModal").classList.add("hidden");
+            }
+
+            function closeModal() {
+
+                document.getElementById("modalBg").classList.add("hidden");
+                document.getElementById("modalBg").classList.remove("flex");
+            }
 
         </script>
 
