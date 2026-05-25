@@ -25,13 +25,20 @@ public class LoginServlet extends HttpServlet {
         if (u != null) {
 
             HttpSession session = request.getSession();
+
             session.setAttribute("usuario", u);
 
-            response.sendRedirect("catalogo");
+            session.removeAttribute("errorLogin");
+
+            response.sendRedirect("inicio");
 
         } else {
 
-            response.sendRedirect("login.jsp?error=1");
+            HttpSession session = request.getSession();
+
+            session.setAttribute("errorLogin", "Usuario o contraseña incorrectos");
+
+            response.sendRedirect("inicio");
         }
     }
 }

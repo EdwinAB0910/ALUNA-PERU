@@ -257,6 +257,28 @@
                 <h2 class="text-4xl font-bold text-center mb-8">
                     Bienvenido
                 </h2>
+                
+                <%
+                        String errorLogin = (String) session.getAttribute("errorLogin");
+                    %>
+
+                    <% if (errorLogin != null) {%>
+
+                    <div class="bg-red-500/20 border border-red-400 text-red-100 px-4 py-3 rounded-2xl text-sm mb-4 text-center">
+                        <%= errorLogin%>
+                    </div>
+
+                    <script>
+                        window.onload = function () {
+                            openLogin();
+                        }
+                    </script>
+
+                    <%
+                        session.removeAttribute("errorLogin");
+                    %>
+
+                    <% }%>
 
                 <form action="LoginServlet" method="post" class="space-y-5">
 
