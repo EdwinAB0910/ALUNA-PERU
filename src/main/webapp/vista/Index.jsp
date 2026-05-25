@@ -78,7 +78,7 @@
                         Descubre plantas únicas que transforman tu hogar en un espacio lleno de vida y bienestar
                     </p>
 
-                    <a href="catalogo.html"
+                    <a href="${pageContext.request.contextPath}/catalogo"
                        class="bg-emerald-900 hover:bg-green-500 transition px-6 py-3 rounded-full font-bold">
                         Ver catálogo
                     </a>
