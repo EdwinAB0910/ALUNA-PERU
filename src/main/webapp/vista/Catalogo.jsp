@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="modelo.Planta"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 
 <%
     List<Planta> lista = (List<Planta>) request.getAttribute("plantas");
@@ -237,7 +238,7 @@
         </section>
 
         <!-- MAIN -->
-        <main class="max-w-7xl mx-auto px-6 py-16 flex-grow w-full">
+        <main class="ml-80 max-w-7xl mx-auto px-6 py-16 flex-grow w-full">
 
             <!-- TITULO -->
             <div class="text-center mb-14">
@@ -405,12 +406,52 @@
 
                             </div>
 
-                            <button
-                                class="w-full bg-gradient-to-r from-green-700 to-emerald-500 hover:scale-105 text-white py-3 rounded-2xl font-semibold transition duration-300 shadow-lg">
+                            <% if (session.getAttribute("idUsuario") == null) { %>
 
-                                <a href="${pageContext.request.contextPath}/consultas">Consultar</a>  
-
+                            <button onclick="alert('Debes iniciar sesión o crear una cuenta')"
+                                    class="w-full bg-gray-400 text-white py-3 rounded-2xl">
+                                Agregar al carrito
                             </button>
+
+                            <% } else {%>
+
+                            <form action="CarritoServlet" method="post">
+
+                                <input type="hidden" name="accion" value="agregar">
+                                <input type="hidden" name="idProducto" value="<%= p.getId()%>">
+                                <input type="hidden" name="precio" value="<%= p.getPrecio()%>">
+
+                                <!-- CONTADOR -->
+                                <div class="flex items-center justify-center gap-3 mb-4">
+
+                                    <button type="button"
+                                            onclick="decrementar(this)"
+                                            class="w-10 h-10 bg-red-500 text-white rounded-full font-bold">
+                                        -
+                                    </button>
+
+                                    <input type="number"
+                                           name="cantidad"
+                                           value="1"
+                                           min="1"
+                                           class="w-16 text-center border rounded-lg py-2">
+
+                                    <button type="button"
+                                            onclick="incrementar(this)"
+                                            class="w-10 h-10 bg-green-500 text-white rounded-full font-bold">
+                                        +
+                                    </button>
+
+                                </div>
+
+                                <button
+                                    class="w-full bg-green-600 text-white py-3 rounded-2xl hover:bg-green-700 transition">
+                                    Agregar al carrito
+                                </button>
+
+                            </form>
+
+                            <% } %>
 
                         </div>
 
@@ -421,6 +462,88 @@
                 </div>
 
             </section>
+
+            <!-- CARRITO LATERAL -->
+            <div class="fixed top-0 left-0 h-full w-80 bg-white dark:bg-gray-800 shadow-2xl z-50 overflow-y-auto border-r border-green-200">
+
+                <div class="p-6 border-b">
+                    <h2 class="text-2xl font-bold text-green-700">🛒 Mi Carrito</h2>
+                </div>
+
+                <div class="p-4 space-y-4">
+
+                    <%
+                        List<Map<String, Object>> carrito
+                                = (List<Map<String, Object>>) request.getAttribute("carrito");
+                        double total = request.getAttribute("total") != null
+                                ? (double) request.getAttribute("total") : 0;
+                    %>
+
+                    <% if (carrito != null && !carrito.isEmpty()) { %>
+
+                    <% for (Map<String, Object> item : carrito) {%>
+
+                    <div class="p-3 rounded-xl bg-green-50 dark:bg-gray-700 shadow flex justify-between items-center">
+
+                        <div>
+                            <p class="font-semibold">
+                                <%= item.get("nombre")%>
+                            </p>
+
+                            <p class="text-sm">
+                                <%= item.get("cantidad")%> x S/.
+                                <%= item.get("precio")%>
+                            </p>
+
+                            <p class="text-green-700 font-bold">
+                                S/. <%= item.get("subtotal")%>
+                            </p>
+                        </div>
+
+                        <form class="form-carrito">
+
+                            <input type="hidden" name="accion" value="agregar">
+                            <input type="hidden" name="idProducto" value="<%= p.getId()%>">
+                            <input type="hidden" name="precio" value="<%= p.getPrecio()%>">
+
+                            <button type="submit"
+                                    class="w-full bg-green-600 text-white py-3 rounded-2xl">
+                                Agregar al carrito
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                    <% } %>
+
+                    <% } else { %>
+
+                    <p class="text-center text-gray-500">
+                        Carrito vacío
+                    </p>
+
+                    <% }%>
+
+                </div>
+
+                <div class="p-6 border-t mt-auto">
+
+                    <h3 class="text-xl font-bold text-green-700">
+                        Total: S/. <%= total%>
+                    </h3>
+
+                    <form action="${pageContext.request.contextPath}/CarritoServlet" method="post">
+                        <input type="hidden" name="accion" value="irCheckout">
+
+                        <button class="w-full mt-4 bg-green-600 text-white py-3 rounded-xl hover:bg-green-700">
+                            Comprar
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
 
         </main>
 
@@ -484,28 +607,28 @@
                 <h2 class="text-4xl font-bold text-center mb-8">
                     Bienvenido
                 </h2>
-                
+
                 <%
-                        String errorLogin = (String) session.getAttribute("errorLogin");
-                    %>
+                    String errorLogin = (String) session.getAttribute("errorLogin");
+                %>
 
-                    <% if (errorLogin != null) {%>
+                <% if (errorLogin != null) {%>
 
-                    <div class="bg-red-500/20 border border-red-400 text-red-100 px-4 py-3 rounded-2xl text-sm mb-4 text-center">
-                        <%= errorLogin%>
-                    </div>
+                <div class="bg-red-500/20 border border-red-400 text-red-100 px-4 py-3 rounded-2xl text-sm mb-4 text-center">
+                    <%= errorLogin%>
+                </div>
 
-                    <script>
-                        window.onload = function () {
-                            openLogin();
-                        }
-                    </script>
+                <script>
+                    window.onload = function () {
+                        openLogin();
+                    }
+                </script>
 
-                    <%
-                        session.removeAttribute("errorLogin");
-                    %>
+                <%
+                    session.removeAttribute("errorLogin");
+                %>
 
-                    <% }%>
+                <% }%>
 
                 <form action="LoginServlet" method="post" class="space-y-5">
 
@@ -606,6 +729,22 @@
                 document.getElementById("modalBg").classList.remove("flex");
             }
 
+        </script>
+
+        <script>
+            function incrementar(btn) {
+                let input = btn.parentElement.querySelector("input[name='cantidad']");
+                input.value = parseInt(input.value) + 1;
+            }
+
+            function decrementar(btn) {
+                let input = btn.parentElement.querySelector("input[name='cantidad']");
+                let valor = parseInt(input.value);
+
+                if (valor > 1) {
+                    input.value = valor - 1;
+                }
+            }
         </script>
 
     </body>

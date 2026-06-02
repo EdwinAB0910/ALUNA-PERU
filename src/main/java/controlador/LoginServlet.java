@@ -28,6 +28,8 @@ public class LoginServlet extends HttpServlet {
 
             session.setAttribute("usuario", u);
 
+            session.setAttribute("idUsuario", u.getIdUsuario());
+
             session.removeAttribute("errorLogin");
 
             response.sendRedirect("inicio");
