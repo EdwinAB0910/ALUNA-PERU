@@ -475,6 +475,7 @@
                     <%
                         List<Map<String, Object>> carrito
                                 = (List<Map<String, Object>>) request.getAttribute("carrito");
+
                         double total = request.getAttribute("total") != null
                                 ? (double) request.getAttribute("total") : 0;
                     %>
@@ -486,13 +487,10 @@
                     <div class="p-3 rounded-xl bg-green-50 dark:bg-gray-700 shadow flex justify-between items-center">
 
                         <div>
-                            <p class="font-semibold">
-                                <%= item.get("nombre")%>
-                            </p>
+                            <p class="font-semibold"><%= item.get("nombre")%></p>
 
                             <p class="text-sm">
-                                <%= item.get("cantidad")%> x S/.
-                                <%= item.get("precio")%>
+                                <%= item.get("cantidad")%> x S/. <%= item.get("precio")%>
                             </p>
 
                             <p class="text-green-700 font-bold">
@@ -500,15 +498,14 @@
                             </p>
                         </div>
 
-                        <form class="form-carrito">
+                        <form method="post" action="${pageContext.request.contextPath}/CarritoServlet">
 
-                            <input type="hidden" name="accion" value="agregar">
-                            <input type="hidden" name="idProducto" value="<%= p.getId()%>">
-                            <input type="hidden" name="precio" value="<%= p.getPrecio()%>">
+                            <input type="hidden" name="accion" value="eliminar">
+                            <input type="hidden" name="idProducto" value="<%= item.get("idProducto")%>">
 
                             <button type="submit"
-                                    class="w-full bg-green-600 text-white py-3 rounded-2xl">
-                                Agregar al carrito
+                                    class="text-red-600 hover:text-red-800 text-2xl font-bold px-3">
+                                ✕
                             </button>
 
                         </form>
@@ -745,6 +742,56 @@
                     input.value = valor - 1;
                 }
             }
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const buscador = document.getElementById("buscador");
+                const filtroPrecio = document.getElementById("filtroPrecio");
+                const filtroCategoria = document.getElementById("filtroCategoria");
+
+                const plantas = document.querySelectorAll(".planta-item");
+
+                function filtrar() {
+
+                    const texto = buscador.value.toLowerCase();
+                    const precio = filtroPrecio.value;
+                    const categoria = filtroCategoria.value;
+
+                    plantas.forEach(p => {
+
+                        const nombre = p.dataset.nombre;
+                        const precioPlanta = parseFloat(p.dataset.precio);
+                        const categoriaPlanta = p.dataset.categoria;
+
+                        let mostrar = true;
+
+                        if (!nombre.includes(texto)) {
+                            mostrar = false;
+                        }
+
+                        if (precio === "bajo" && precioPlanta >= 50) {
+                            mostrar = false;
+                        }
+
+                        if (precio === "medio" && (precioPlanta < 50 || precioPlanta > 100)) {
+                            mostrar = false;
+                        }
+
+                        if (categoria !== "todos" && categoriaPlanta !== categoria) {
+                            mostrar = false;
+                        }
+
+                        p.style.display = mostrar ? "block" : "none";
+                    });
+                }
+
+                buscador.addEventListener("input", filtrar);
+                filtroPrecio.addEventListener("change", filtrar);
+                filtroCategoria.addEventListener("change", filtrar);
+
+            });
         </script>
 
     </body>
