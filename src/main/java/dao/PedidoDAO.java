@@ -48,5 +48,39 @@ public class PedidoDAO {
 
         ps.executeUpdate();
     }
+    // Confirmar compra y guardar datos de entrega
 
+    public void confirmarPedido(
+            int idPedido,
+            double total,
+            String direccion,
+            String referencia,
+            String telefono,
+            String observaciones,
+            String metodoPago) throws SQLException {
+
+        String sql
+                = "UPDATE pedido "
+                + "SET total=?, "
+                + "estado='PENDIENTE', "
+                + "fechaCompra=NOW(), "
+                + "direccion=?, "
+                + "referencia=?, "
+                + "telefono=?, "
+                + "observaciones=?, "
+                + "metodoPago=? "
+                + "WHERE idPedido=?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ps.setDouble(1, total);
+        ps.setString(2, direccion);
+        ps.setString(3, referencia);
+        ps.setString(4, telefono);
+        ps.setString(5, observaciones);
+        ps.setString(6, metodoPago);
+        ps.setInt(7, idPedido);
+
+        ps.executeUpdate();
+    }
 }
