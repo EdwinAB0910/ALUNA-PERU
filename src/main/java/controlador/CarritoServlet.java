@@ -63,6 +63,7 @@ public class CarritoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
 
         try {
 
@@ -113,9 +114,24 @@ public class CarritoServlet extends HttpServlet {
                 service.eliminar(idUsuario, idProducto);
             }
 
-            if ("irCheckout".equals(accion)) {
+            if ("finalizarCompra".equals(accion)) {
 
-                resp.sendRedirect(req.getContextPath() + "/vista/Checkout.jsp");
+                String direccion = req.getParameter("direccion");
+                String referencia = req.getParameter("referencia");
+                String telefono = req.getParameter("telefono");
+                String observaciones = req.getParameter("observaciones");
+                String metodoPago = req.getParameter("metodoPago");
+
+                service.checkout(
+                        idUsuario,
+                        direccion,
+                        referencia,
+                        telefono,
+                        observaciones,
+                        metodoPago
+                );
+
+                resp.sendRedirect("catalogo");
                 return;
             }
 

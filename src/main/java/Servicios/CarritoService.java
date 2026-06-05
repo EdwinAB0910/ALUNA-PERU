@@ -3,6 +3,7 @@ package Servicios;
 import dao.DetallePedidoDAO;
 import dao.PedidoDAO;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,15 +18,9 @@ public class CarritoService {
     }
 
     // Obtener carrito
-    public int obtenerOCrearCarrito(int idUsuario) throws Exception {
+    public int obtenerCarrito(int idUsuario) throws Exception {
 
-        int idPedido = pedidoDAO.obtenerCarritoId(idUsuario);
-
-        if (idPedido == -1) {
-            idPedido = pedidoDAO.crearCarrito(idUsuario);
-        }
-
-        return idPedido;
+        return pedidoDAO.obtenerCarritoId(idUsuario);
     }
 
     // Agregar producto
@@ -35,7 +30,11 @@ public class CarritoService {
             int cantidad,
             double precio) throws Exception {
 
-        int idPedido = obtenerOCrearCarrito(idUsuario);
+        int idPedido = pedidoDAO.obtenerCarritoId(idUsuario);
+
+        if (idPedido == -1) {
+            idPedido = pedidoDAO.crearCarrito(idUsuario);
+        }
 
         detalleDAO.agregarProducto(
                 idPedido,
@@ -48,29 +47,51 @@ public class CarritoService {
     // Ver carrito
     public List<Map<String, Object>> verCarrito(int idUsuario) throws Exception {
 
-        int idPedido = obtenerOCrearCarrito(idUsuario);
+        int idPedido = pedidoDAO.obtenerCarritoId(idUsuario);
+
+        if (idPedido == -1) {
+            return new ArrayList<>();
+        }
 
         return detalleDAO.listarCarrito(idPedido);
     }
 
     // Total
-    public double total(int idUsuario)
-            throws Exception {
+    public double total(int idUsuario) throws Exception {
 
-        int idPedido = obtenerOCrearCarrito(idUsuario);
+        int idPedido = pedidoDAO.obtenerCarritoId(idUsuario);
+
+        if (idPedido == -1) {
+            return 0;
+        }
 
         return detalleDAO.obtenerTotal(idPedido);
     }
 
-    // Checkout
-    public void checkout(int idUsuario)
+    public void checkout(
+            int idUsuario,
+            String direccion,
+            String referencia,
+            String telefono,
+            String observaciones,
+            String metodoPago)
             throws Exception {
 
-        int idPedido = obtenerOCrearCarrito(idUsuario);
+        int idPedido = obtenerCarrito(idUsuario);
 
         double total = detalleDAO.obtenerTotal(idPedido);
 
-        pedidoDAO.confirmarPedido(idPedido, total);
+        pedidoDAO.confirmarPedido(
+                idPedido,
+                total,
+                direccion,
+                referencia,
+                telefono,
+                observaciones,
+                metodoPago
+        );
+
+        detalleDAO.vaciarCarrito(idPedido);
     }
 
     // Eliminar producto
@@ -78,7 +99,7 @@ public class CarritoService {
             int idUsuario,
             int idProducto) throws Exception {
 
-        int idPedido = obtenerOCrearCarrito(idUsuario);
+        int idPedido = obtenerCarrito(idUsuario);
 
         detalleDAO.eliminarProducto(
                 idPedido,
@@ -90,7 +111,7 @@ public class CarritoService {
     public void vaciarCarrito(int idUsuario)
             throws Exception {
 
-        int idPedido = obtenerOCrearCarrito(idUsuario);
+        int idPedido = obtenerCarrito(idUsuario);
 
         detalleDAO.vaciarCarrito(idPedido);
     }

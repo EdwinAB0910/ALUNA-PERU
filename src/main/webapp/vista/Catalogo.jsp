@@ -530,13 +530,10 @@
                         Total: S/. <%= total%>
                     </h3>
 
-                    <form action="${pageContext.request.contextPath}/CarritoServlet" method="post">
-                        <input type="hidden" name="accion" value="irCheckout">
-
-                        <button class="w-full mt-4 bg-green-600 text-white py-3 rounded-xl hover:bg-green-700">
-                            Comprar
-                        </button>
-                    </form>
+                    <button onclick="openCheckout()"
+                            class="w-full mt-4 bg-green-600 text-white py-3 rounded-xl hover:bg-green-700">
+                        Comprar
+                    </button>
 
                 </div>
 
@@ -700,6 +697,140 @@
 
         </div>
 
+        <div id="checkoutModalBg"
+             class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 w-[500px] max-h-[90vh] overflow-y-auto shadow-2xl relative">
+
+                <button onclick="closeCheckout()"
+                        class="absolute top-4 right-5 text-2xl font-bold">
+                    ✕
+                </button>
+
+                <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">
+                    Finalizar Compra
+                </h2>
+
+                <form action="${pageContext.request.contextPath}/CarritoServlet"
+                      method="post">
+
+                    <input type="hidden"
+                           name="accion"
+                           value="finalizarCompra">
+
+                    <div class="space-y-4">
+
+                        <div>
+                            <label class="font-semibold">
+                                Dirección
+                            </label>
+
+                            <input type="text"
+                                   name="direccion"
+                                   required
+                                   class="w-full border rounded-xl p-3 mt-1">
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
+                                Referencia
+                            </label>
+
+                            <input type="text"
+                                   name="referencia"
+                                   class="w-full border rounded-xl p-3 mt-1">
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
+                                Teléfono
+                            </label>
+
+                            <input type="text"
+                                   name="telefono"
+                                   required
+                                   class="w-full border rounded-xl p-3 mt-1">
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
+                                Observaciones
+                            </label>
+
+                            <textarea
+                                name="observaciones"
+                                rows="3"
+                                class="w-full border rounded-xl p-3 mt-1"
+                                placeholder="Ej: Entregar después de las 5pm"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
+                                Método de Pago
+                            </label>
+
+                            <select id="metodoPago"
+                                    name="metodoPago"
+                                    onchange="mostrarQR()"
+                                    required
+                                    class="w-full border rounded-xl p-3 mt-1">
+
+                                <option value="efectivo">Efectivo</option>
+                                <option value="yape">Yape</option>
+                                <option value="plin">Plin</option>
+                                <option value="tarjeta">Tarjeta</option>
+
+                            </select>
+
+                            <div id="qrPago" class="hidden mt-4 text-center">
+
+                                <img src="img/qr-yape.png"
+                                     alt="QR Pago"
+                                     class="mx-auto w-32 h-32 object-contain">
+
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Escanea el QR y luego confirma tu pedido.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-xl">
+
+                            <p class="text-xl font-bold text-green-700">
+                                Total: S/. <%= total%>
+                            </p>
+
+                        </div>
+
+                        <button type="submit"
+                                class="w-full bg-green-600 text-white py-4 rounded-xl hover:bg-green-700">
+
+                            Confirmar Pedido
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <script>
+            function openCheckout() {
+                document.getElementById("checkoutModalBg")
+                        .classList.remove("hidden");
+            }
+
+            function closeCheckout() {
+                document.getElementById("checkoutModalBg")
+                        .classList.add("hidden");
+            }
+        </script>
+
         <script>
 
             function openLogin() {
@@ -792,6 +923,20 @@
                 filtroCategoria.addEventListener("change", filtrar);
 
             });
+        </script>
+
+        <script>
+            function mostrarQR() {
+
+                const metodo = document.getElementById("metodoPago").value;
+                const qr = document.getElementById("qrPago");
+
+                if (metodo === "yape" || metodo === "plin") {
+                    qr.classList.remove("hidden");
+                } else {
+                    qr.classList.add("hidden");
+                }
+            }
         </script>
 
     </body>
