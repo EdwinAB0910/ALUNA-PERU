@@ -37,13 +37,15 @@
 
             /* HERO */
             .hero{
-                background:
-                    linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-                    url('img/banner.jpg');
-
                 background-size: cover;
-                background-position: center;
-                height: 500px;
+                background-position: center center;
+                background-repeat: no-repeat;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 100%;
             }
 
             /* CARRUSEL */
@@ -212,23 +214,47 @@
 
             </nav>
 
-            <button onclick="document.documentElement.classList.toggle('dark')"
-                    class="text-white text-lg hover:scale-110 transition">
-                🌙 / ☀️
-            </button>
+            <div class="flex items-center gap-4 pt-2">
+
+                <button onclick="toggleCarrito()"
+                        class="text-white text-3xl hover:scale-125 transition duration-300">
+                    🛒
+                </button>
+
+                <button onclick="document.documentElement.classList.toggle('dark')"
+                        class="text-white text-2xl hover:scale-125 transition duration-300">
+                    🌙 / ☀️
+                </button>
+
+            </div>
 
         </header>
 
         <!-- HERO -->
-        <section class="hero flex items-center justify-center text-center px-6" style="background-image: url('img/Helecho cola de zorro.jpeg');">
+        <section
+            class="hero min-h-[350px] md:min-h-[500px] px-4"
+            style="
+            background:
+            linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+            url('img/Helecho cola de zorro.jpeg');
+            background-size: cover;
+            background-position: center center;">
 
-            <div class="glass rounded-[35px] px-10 py-14 text-white max-w-4xl shadow-2xl">
+            <div class="glass
+                 rounded-[35px]
+                 px-6 md:px-10
+                 py-8 md:py-14
+                 text-white
+                 text-center
+                 max-w-4xl
+                 mx-auto
+                 shadow-2xl">
 
-                <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                <h1 class="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6">
                     ALUNA PERÚ
                 </h1>
 
-                <p class="text-xl md:text-2xl leading-relaxed font-light">
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl">
                     Plantas tropicales, exóticas y ornamentales
                     para transformar cada espacio en algo único.
                 </p>
@@ -238,7 +264,10 @@
         </section>
 
         <!-- MAIN -->
-        <main class="ml-80 max-w-7xl mx-auto px-6 py-16 flex-grow w-full">
+        <main class="
+              px-4 md:px-6
+              py-10
+              overflow-x-hidden">
 
             <!-- TITULO -->
             <div class="text-center mb-14">
@@ -257,7 +286,7 @@
             <!-- BUSCADOR -->
             <div class="bg-white dark:bg-gray-800 p-8 rounded-[35px] shadow-2xl mb-16 border border-green-100">
 
-                <div class="grid md:grid-cols-3 gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
                     <!-- BUSCADOR -->
                     <div class="relative md:col-span-1">
@@ -361,9 +390,13 @@
             <!-- GRID -->
             <section>
 
-                <div
-                    id="contenedorPlantas"
-                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div id="contenedorPlantas"
+                     class="
+                     grid
+                     grid-cols-1
+                     md:grid-cols-2
+                     xl:grid-cols-4
+                     gap-6">
 
                     <% for (Planta p : lista) {%>
 
@@ -379,7 +412,7 @@
                             <img
                                 src="<%= p.getImagen()%>"
                                 alt="<%= p.getNombre()%>"
-                                class="w-full h-72 object-cover">
+                                class="w-full h-60 object-cover">
 
                         </div>
 
@@ -434,6 +467,8 @@
                                            name="cantidad"
                                            value="1"
                                            min="1"
+                                           max="<%= p.getStock()%>"
+                                           required
                                            class="w-16 text-center border rounded-lg py-2">
 
                                     <button type="button"
@@ -453,18 +488,36 @@
 
                             <% } %>
 
-                        </div>
+                        </div> 
 
-                    </div>
+                    </div> 
 
-                    <% }%>
+                    <% } %>
 
-                </div>
+                </div> 
 
             </section>
 
             <!-- CARRITO LATERAL -->
-            <div class="fixed top-0 left-0 h-full w-80 bg-white dark:bg-gray-800 shadow-2xl z-50 overflow-y-auto border-r border-green-200">
+            <aside id="panelCarrito"
+                   class="
+                   fixed top-0 left-0
+                   w-80 h-screen
+                   bg-white dark:bg-gray-800
+                   shadow-2xl z-50
+                   overflow-y-auto
+                   transform -translate-x-full
+                   transition-transform duration-300">
+
+
+                <!-- BOTON CERRAR SOLO EN MOVIL -->
+                <button
+                    onclick="toggleCarrito()"
+                    class=" absolute top-4 right-4 text-2xl font-bold">
+
+                    ✕
+
+                </button>
 
                 <div class="p-6 border-b">
                     <h2 class="text-2xl font-bold text-green-700">🛒 Mi Carrito</h2>
@@ -537,7 +590,7 @@
 
                 </div>
 
-            </div>
+            </aside>
 
         </main>
 
@@ -571,17 +624,26 @@
 
         </footer>
 
-        <!-- WHATSAPP -->
-        <div class="fixed bottom-8 right-5 z-50">
+        <!-- CONTENEDOR -->
+        <div class="fixed bottom-8 right-5 flex flex-col gap-4 z-50">
 
+            <!-- CHATBOT -->
+            <button onclick="abrirChat()"
+                    class="bg-gradient-to-br from-green-400 via-cyan-300 to-gray-300
+                    p-3 rounded-full shadow-xl hover:scale-110 transition">
+
+                <img src="img/Chatbot.jpg"
+                     alt="Chat ALUNA"
+                     class="w-10 h-10 rounded-full">
+            </button>
+
+            <!-- WHATSAPP -->
             <a href="https://wa.me/51967203776"
                target="_blank"
-               class="fixed bottom-8 right-5 bg-green-400 p-4 rounded-full shadow-xl hover:scale-110 transition">
+               class="bg-green-500 p-3 rounded-full shadow-xl hover:scale-110 transition">
 
                 <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
-                     alt="WhatsApp"
-                     class="w-8 h-8">
-
+                     class="w-10 h-10">
             </a>
 
         </div>
@@ -629,12 +691,15 @@
                     <input type="email"
                            name="email"
                            placeholder="Correo"
+                           maxlength="100"
                            required
                            class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
 
                     <input type="password"
                            name="clave"
                            placeholder="Contraseña"
+                           minlength="6"
+                           maxlength="30"
                            required
                            class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
 
@@ -664,24 +729,31 @@
 
                     <input type="text"
                            name="nombres"
+                           pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}"
+                           maxlength="50"
                            placeholder="Nombres"
                            required
                            class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
 
                     <input type="text"
                            name="apellidos"
+                           pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}"
+                           maxlength="50"
                            placeholder="Apellidos"
                            required
                            class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
 
                     <input type="email"
                            name="email"
+                           maxlength="100"
                            placeholder="Correo"
                            required
                            class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
 
                     <input type="password"
                            name="clave"
+                           minlength="6"
+                           maxlength="30"
                            placeholder="Contraseña"
                            required
                            class="w-full px-5 py-4 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-green-400">
@@ -722,11 +794,79 @@
 
                         <div>
                             <label class="font-semibold">
+                                Departamento
+                            </label>
+
+                            <select
+                                name="departamento"
+                                required
+                                class="w-full border rounded-xl p-3 mt-1">
+
+                                <option value="">Seleccione un departamento</option>
+
+                                <option value="Amazonas">Amazonas</option>
+                                <option value="Áncash">Áncash</option>
+                                <option value="Apurímac">Apurímac</option>
+                                <option value="Arequipa">Arequipa</option>
+                                <option value="Ayacucho">Ayacucho</option>
+                                <option value="Cajamarca">Cajamarca</option>
+                                <option value="Callao">Callao</option>
+                                <option value="Cusco">Cusco</option>
+                                <option value="Huancavelica">Huancavelica</option>
+                                <option value="Huánuco">Huánuco</option>
+                                <option value="Ica">Ica</option>
+                                <option value="Junín">Junín</option>
+                                <option value="La Libertad">La Libertad</option>
+                                <option value="Lambayeque">Lambayeque</option>
+                                <option value="Lima">Lima</option>
+                                <option value="Loreto">Loreto</option>
+                                <option value="Madre de Dios">Madre de Dios</option>
+                                <option value="Moquegua">Moquegua</option>
+                                <option value="Pasco">Pasco</option>
+                                <option value="Piura">Piura</option>
+                                <option value="Puno">Puno</option>
+                                <option value="San Martín">San Martín</option>
+                                <option value="Tacna">Tacna</option>
+                                <option value="Tumbes">Tumbes</option>
+                                <option value="Ucayali">Ucayali</option>
+
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
+                                Provincia
+                            </label>
+
+                            <input type="text"
+                                   name="provincia"
+                                   maxlength="100"
+                                   required
+                                   class="w-full border rounded-xl p-3 mt-1">
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
+                                Distrito
+                            </label>
+
+                            <input type="text"
+                                   name="distrito"
+                                   maxlength="100"
+                                   required
+                                   class="w-full border rounded-xl p-3 mt-1">
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
                                 Dirección
                             </label>
 
                             <input type="text"
                                    name="direccion"
+                                   minlength="10"
+                                   maxlength="150"
+                                   placeholder="Ej: Avenida Progreso 156"
                                    required
                                    class="w-full border rounded-xl p-3 mt-1">
                         </div>
@@ -738,6 +878,8 @@
 
                             <input type="text"
                                    name="referencia"
+                                   maxlength="150"
+                                   placeholder="Ej: A 2 cuadras de la Plaza de Armas"
                                    class="w-full border rounded-xl p-3 mt-1">
                         </div>
 
@@ -746,8 +888,11 @@
                                 Teléfono
                             </label>
 
-                            <input type="text"
+                            <input type="tel"
                                    name="telefono"
+                                   pattern="[0-9]{9}"
+                                   maxlength="9"
+                                   minlength="9"
                                    required
                                    class="w-full border rounded-xl p-3 mt-1">
                         </div>
@@ -759,6 +904,7 @@
 
                             <textarea
                                 name="observaciones"
+                                maxlength="300"
                                 rows="3"
                                 class="w-full border rounded-xl p-3 mt-1"
                                 placeholder="Ej: Entregar después de las 5pm"></textarea>
@@ -819,6 +965,30 @@
 
         </div>
 
+        <!-- CHAT FLOTANTE -->
+        <div id="chatBot"
+             class="hidden fixed bottom-24 right-5 w-[400px] h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden z-50">
+
+            <div class="bg-blue-500 text-white p-4 flex justify-between items-center">
+
+                <span class="font-bold">
+                    Asistente ALUNA
+                </span>
+
+                <button onclick="cerrarChat()"
+                        class="text-xl">
+                    ✕
+                </button>
+
+            </div>
+
+            <iframe
+                src="https://poe.com/Chatbot-ALUNA?invite_code=cc1564e9-6349-4c00-892d-62796b2dd5ef"
+                class="w-full h-[calc(100%-60px)] border-0">
+            </iframe>
+
+        </div>
+
         <script>
             function openCheckout() {
                 document.getElementById("checkoutModalBg")
@@ -873,6 +1043,24 @@
                     input.value = valor - 1;
                 }
             }
+        </script>
+
+        <script>
+            document.querySelectorAll("form").forEach(form => {
+
+                form.addEventListener("submit", function (e) {
+
+                    if (!this.checkValidity()) {
+
+                        e.preventDefault();
+
+                        alert("Por favor complete correctamente todos los campos.");
+
+                    }
+
+                });
+
+            });
         </script>
 
         <script>
@@ -936,6 +1124,26 @@
                 } else {
                     qr.classList.add("hidden");
                 }
+            }
+        </script>
+
+        <script>
+            function abrirChat() {
+                document.getElementById("chatBot")
+                        .classList.remove("hidden");
+            }
+
+            function cerrarChat() {
+                document.getElementById("chatBot")
+                        .classList.add("hidden");
+            }
+        </script>
+
+        <script>
+            function toggleCarrito() {
+                document
+                        .getElementById("panelCarrito")
+                        .classList.toggle("-translate-x-full");
             }
         </script>
 

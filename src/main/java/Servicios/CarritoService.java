@@ -74,7 +74,10 @@ public class CarritoService {
             String referencia,
             String telefono,
             String observaciones,
-            String metodoPago)
+            String metodoPago,
+            String departamento,
+            String provincia,
+            String distrito)
             throws Exception {
 
         int idPedido = obtenerCarrito(idUsuario);
@@ -88,7 +91,10 @@ public class CarritoService {
                 referencia,
                 telefono,
                 observaciones,
-                metodoPago
+                metodoPago,
+                departamento,
+                provincia,
+                distrito
         );
 
         detalleDAO.vaciarCarrito(idPedido);

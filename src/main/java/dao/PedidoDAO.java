@@ -57,7 +57,11 @@ public class PedidoDAO {
             String referencia,
             String telefono,
             String observaciones,
-            String metodoPago) throws SQLException {
+            String metodoPago,
+            String departamento,
+            String provincia,
+            String distrito)
+            throws SQLException {
 
         String sql
                 = "UPDATE pedido "
@@ -68,18 +72,25 @@ public class PedidoDAO {
                 + "referencia=?, "
                 + "telefono=?, "
                 + "observaciones=?, "
-                + "metodoPago=? "
+                + "metodoPago=?, "
+                + "departamento=?, "
+                + "provincia=?, "
+                + "distrito=? "
                 + "WHERE idPedido=?";
 
         PreparedStatement ps = con.prepareStatement(sql);
 
         ps.setDouble(1, total);
+
         ps.setString(2, direccion);
         ps.setString(3, referencia);
         ps.setString(4, telefono);
         ps.setString(5, observaciones);
         ps.setString(6, metodoPago);
-        ps.setInt(7, idPedido);
+        ps.setString(7, departamento);
+        ps.setString(8, provincia);
+        ps.setString(9, distrito);
+        ps.setInt(10, idPedido);
 
         ps.executeUpdate();
     }
