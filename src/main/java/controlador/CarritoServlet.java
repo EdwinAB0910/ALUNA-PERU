@@ -121,6 +121,9 @@ public class CarritoServlet extends HttpServlet {
                 String telefono = req.getParameter("telefono");
                 String observaciones = req.getParameter("observaciones");
                 String metodoPago = req.getParameter("metodoPago");
+                String departamento = req.getParameter("departamento");
+                String provincia = req.getParameter("provincia");
+                String distrito = req.getParameter("distrito");
 
                 service.checkout(
                         idUsuario,
@@ -128,7 +131,10 @@ public class CarritoServlet extends HttpServlet {
                         referencia,
                         telefono,
                         observaciones,
-                        metodoPago
+                        metodoPago,
+                        departamento,
+                        provincia,
+                        distrito
                 );
 
                 resp.sendRedirect("catalogo");

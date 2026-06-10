@@ -193,12 +193,28 @@
             </div>
         </footer>
 
-        <!-- WHATSAPP -->
-        <div class="fixed bottom-8 right-5 z-50">
-            <a href="https://wa.me/51967203776" target="_blank"
-               class="fixed bottom-8 right-5 bg-green-400 p-4 rounded-full shadow-xl hover:scale-110 transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="w-7">
+        <!-- CONTENEDOR -->
+        <div class="fixed bottom-8 right-5 flex flex-col gap-4 z-50">
+
+            <!-- CHATBOT -->
+            <button onclick="abrirChat()"
+                    class="bg-gradient-to-br from-green-400 via-cyan-300 to-gray-300
+                    p-3 rounded-full shadow-xl hover:scale-110 transition">
+
+                <img src="img/Chatbot.jpg"
+                     alt="Chat ALUNA"
+                     class="w-10 h-10 rounded-full">
+            </button>
+
+            <!-- WHATSAPP -->
+            <a href="https://wa.me/51967203776"
+               target="_blank"
+               class="bg-green-500 p-3 rounded-full shadow-xl hover:scale-110 transition">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+                     class="w-10 h-10">
             </a>
+
         </div>
         <div id="modalBg"
              class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
@@ -215,28 +231,28 @@
                 <h2 class="text-4xl font-bold text-center mb-8">
                     Bienvenido
                 </h2>
-                
+
                 <%
-                        String errorLogin = (String) session.getAttribute("errorLogin");
-                    %>
+                    String errorLogin = (String) session.getAttribute("errorLogin");
+                %>
 
-                    <% if (errorLogin != null) {%>
+                <% if (errorLogin != null) {%>
 
-                    <div class="bg-red-500/20 border border-red-400 text-red-100 px-4 py-3 rounded-2xl text-sm mb-4 text-center">
-                        <%= errorLogin%>
-                    </div>
+                <div class="bg-red-500/20 border border-red-400 text-red-100 px-4 py-3 rounded-2xl text-sm mb-4 text-center">
+                    <%= errorLogin%>
+                </div>
 
-                    <script>
-                        window.onload = function () {
-                            openLogin();
-                        }
-                    </script>
+                <script>
+                    window.onload = function () {
+                        openLogin();
+                    }
+                </script>
 
-                    <%
-                        session.removeAttribute("errorLogin");
-                    %>
+                <%
+                    session.removeAttribute("errorLogin");
+                %>
 
-                    <% }%>
+                <% }%>
 
                 <form action="LoginServlet" method="post" class="space-y-5">
 
@@ -311,6 +327,30 @@
 
         </div>
 
+        <!-- CHAT FLOTANTE -->
+        <div id="chatBot"
+             class="hidden fixed bottom-24 right-5 w-[400px] h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden z-50">
+
+            <div class="bg-blue-500 text-white p-4 flex justify-between items-center">
+
+                <span class="font-bold">
+                    Asistente ALUNA
+                </span>
+
+                <button onclick="cerrarChat()"
+                        class="text-xl">
+                    ✕
+                </button>
+
+            </div>
+
+            <iframe
+                src="https://poe.com/Chatbot-ALUNA?invite_code=cc1564e9-6349-4c00-892d-62796b2dd5ef"
+                class="w-full h-[calc(100%-60px)] border-0">
+            </iframe>
+
+        </div>
+
         <script>
 
             function openLogin() {
@@ -337,6 +377,18 @@
                 document.getElementById("modalBg").classList.remove("flex");
             }
 
+        </script>
+
+        <script>
+            function abrirChat() {
+                document.getElementById("chatBot")
+                        .classList.remove("hidden");
+            }
+
+            function cerrarChat() {
+                document.getElementById("chatBot")
+                        .classList.add("hidden");
+            }
         </script>
 
     </body>
