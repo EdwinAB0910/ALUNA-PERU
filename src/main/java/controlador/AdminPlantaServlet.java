@@ -27,7 +27,7 @@ public class AdminPlantaServlet extends HttpServlet {
 
             response.sendRedirect(
                     request.getContextPath()
-                    + "/AdminPlantaServlet?accion=listar"
+                    + "/AdminPlantaServlet?accion=panel"
             );
 
             return;
@@ -36,10 +36,16 @@ public class AdminPlantaServlet extends HttpServlet {
         String accion = request.getParameter("accion");
 
         if (accion == null) {
-            accion = "listar";
+            accion = "panel";
         }
 
         switch (accion) {
+            case "panel":
+
+                request.getRequestDispatcher("/vista/admin.jsp")
+                        .forward(request, response);
+
+                break;
 
             case "listar":
 
