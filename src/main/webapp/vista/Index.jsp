@@ -102,7 +102,7 @@
 
                         <% if (u.getIdRol() == 1) { %>
 
-                        <a href="admin.jsp"
+                        <a href="${pageContext.request.contextPath}/admin"
                            class="px-4 py-2 rounded-full bg-cyan-500 text-white hover:bg-cyan-600 transition">
 
                             Admin

@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
         UsuarioDAO dao = new UsuarioDAO();
 
         Usuario u = dao.login(email, clave);
+        
 
         if (u != null) {
 
@@ -28,7 +29,16 @@ public class LoginServlet extends HttpServlet {
 
             session.setAttribute("usuario", u);
 
-            session.setAttribute("idUsuario", u.getIdUsuario());
+            session.setAttribute(
+                    "idUsuario",
+                    u.getIdUsuario()
+            );
+
+            // GUARDAR ROL
+            session.setAttribute(
+                    "rol",
+                    u.getIdRol()
+            );
 
             session.removeAttribute("errorLogin");
 

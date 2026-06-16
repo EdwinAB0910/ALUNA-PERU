@@ -1,16 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
-   http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
-         version="4.0">
+         xsi:schemaLocation="
+         http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
 
-    <session-config>
-        <session-timeout>30</session-timeout>
-    </session-config>
 
-    <welcome-file-list>
-        <welcome-file>inicio</welcome-file>
-    </welcome-file-list>
+<!-- SERVLET CRUD PRODUCTO -->
+
+<servlet>                                                                                        
+
+    <servlet-name>
+        ProductoServlet
+    </servlet-name>
+
+    <servlet-class>
+        controlador.ProductoServlet
+    </servlet-class>
+
+</servlet>
+
+
+<servlet-mapping>
+
+    <servlet-name>
+        ProductoServlet
+    </servlet-name>
+
+    <url-pattern>
+        /ProductoServlet
+    </url-pattern>
+
+</servlet-mapping>
+
+
+
+<!-- CONFIGURACION DE SESION -->
+
+<session-config>
+
+    <session-timeout>
+        30
+    </session-timeout>
+
+</session-config>
+
+
+
+<!-- PAGINA INICIAL -->
+
+<welcome-file-list>
+
+    <welcome-file>
+        inicio
+    </welcome-file>
+
+</welcome-file-list>
+
 
 </web-app>
