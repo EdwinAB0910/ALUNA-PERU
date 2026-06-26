@@ -238,4 +238,39 @@ public class PlantaDAO {
 
     }
 
+    public int obtenerStock(int idProducto) throws Exception {
+        // Corregido: de 'planta' a 'producto' y de 'id' a 'idProducto'
+        String sql = "SELECT stock FROM producto WHERE idProducto = ?";
+
+        Connection con = Conexion.getConexion();
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idProducto);
+
+        ResultSet rs = ps.executeQuery();
+        int stock = 0;
+
+        if (rs.next()) {
+            stock = rs.getInt("stock");
+        }
+
+        rs.close();
+        ps.close();
+
+        return stock;
+    }
+
+    public void actualizarStock(int idProducto, int cantidad) throws Exception {
+        // Corregido: de 'planta' a 'producto' y de 'id' a 'idProducto'
+        String sql = "UPDATE producto SET stock = stock - ? WHERE idProducto = ?";
+
+        Connection con = Conexion.getConexion();
+        PreparedStatement ps = con.prepareStatement(sql);
+
+        ps.setInt(1, cantidad);
+        ps.setInt(2, idProducto);
+
+        ps.executeUpdate();
+        ps.close();
+    }
+
 }

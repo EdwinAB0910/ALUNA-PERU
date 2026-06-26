@@ -6,7 +6,6 @@
 <%
     List<Planta> lista = (List<Planta>) request.getAttribute("plantas");
 %>
-----hola que tal---
 <!DOCTYPE html>
 <html lang="es">
 
