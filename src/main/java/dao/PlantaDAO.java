@@ -12,6 +12,68 @@ import java.util.List;
 
 public class PlantaDAO {
 
+    public List<Planta> buscarSimilares(String texto) {
+
+        List<Planta> lista = new ArrayList<>();
+
+        try {
+
+            Connection con = Conexion.getConexion();
+
+            String[] palabras = texto.toLowerCase().split("\\s+");
+
+            StringBuilder sql
+                    = new StringBuilder("SELECT * FROM producto WHERE ");
+
+            for (int i = 0; i < palabras.length; i++) {
+
+                if (i > 0) {
+                    sql.append(" OR ");
+                }
+
+                sql.append("LOWER(nombre) LIKE ?");
+            }
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql.toString());
+
+            for (int i = 0; i < palabras.length; i++) {
+
+                ps.setString(i + 1, "%" + palabras[i] + "%");
+
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Planta p = new Planta();
+
+                p.setId(rs.getInt("idProducto"));
+                p.setNombre(rs.getString("nombre"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setStock(rs.getInt("stock"));
+                p.setDescripcion(rs.getString("descripcion"));
+                p.setImagen(rs.getString("imagen"));
+                p.setIdCategoria(rs.getInt("idCategoria"));
+
+                lista.add(p);
+
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return lista;
+
+    }
+
     public List<Planta> listar() {
 
         List<Planta> lista = new ArrayList<>();
@@ -271,6 +333,52 @@ public class PlantaDAO {
 
         ps.executeUpdate();
         ps.close();
+    }
+
+    public String obtenerCatalogoIA() {
+
+        StringBuilder sb = new StringBuilder();
+
+        String sql = "SELECT nombre, descripcion, precio, stock FROM producto";
+
+        try {
+
+            Connection con = Conexion.getConexion();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                sb.append("- Producto: ")
+                        .append(rs.getString("nombre"))
+                        .append("\n");
+
+                sb.append("Descripción: ")
+                        .append(rs.getString("descripcion"))
+                        .append("\n");
+
+                sb.append("Precio: S/")
+                        .append(rs.getDouble("precio"))
+                        .append("\n");
+
+                sb.append("Stock disponible: ")
+                        .append(rs.getInt("stock"))
+                        .append("\n\n");
+
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return sb.toString();
     }
 
 }
