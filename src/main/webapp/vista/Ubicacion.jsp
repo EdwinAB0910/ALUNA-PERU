@@ -196,16 +196,6 @@
         <!-- CONTENEDOR -->
         <div class="fixed bottom-8 right-5 flex flex-col gap-4 z-50">
 
-            <!-- CHATBOT -->
-            <button onclick="abrirChat()"
-                    class="bg-gradient-to-br from-green-400 via-cyan-300 to-gray-300
-                    p-3 rounded-full shadow-xl hover:scale-110 transition">
-
-                <img src="img/Chatbot.jpg"
-                     alt="Chat ALUNA"
-                     class="w-10 h-10 rounded-full">
-            </button>
-
             <!-- WHATSAPP -->
             <a href="https://wa.me/51967203776"
                target="_blank"
@@ -324,30 +314,6 @@
                 </form>
 
             </div>
-
-        </div>
-
-        <!-- CHAT FLOTANTE -->
-        <div id="chatBot"
-             class="hidden fixed bottom-24 right-5 w-[400px] h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden z-50">
-
-            <div class="bg-blue-500 text-white p-4 flex justify-between items-center">
-
-                <span class="font-bold">
-                    Asistente ALUNA
-                </span>
-
-                <button onclick="cerrarChat()"
-                        class="text-xl">
-                    ✕
-                </button>
-
-            </div>
-
-            <iframe
-                src="https://poe.com/Chatbot-ALUNA?invite_code=cc1564e9-6349-4c00-892d-62796b2dd5ef"
-                class="w-full h-[calc(100%-60px)] border-0">
-            </iframe>
 
         </div>
 

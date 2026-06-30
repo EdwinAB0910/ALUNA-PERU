@@ -116,6 +116,81 @@
                 background: rgba(255,255,255,.12);
             }
 
+            #mensajes{
+                height:420px;
+                overflow-y:auto;
+                padding:15px;
+                background:#f3f4f6;
+                display:flex;
+                flex-direction:column;
+                gap:10px;
+            }
+
+            .msg{
+                max-width:80%;
+                padding:12px 16px;
+                border-radius:18px;
+                white-space:pre-wrap;
+                word-break:break-word;
+                animation:fade .2s ease;
+                box-shadow:0 2px 8px rgba(0,0,0,.08);
+            }
+
+            .user{
+                align-self:flex-end;
+                background:#16a34a;
+                color:white;
+                border-bottom-right-radius:5px;
+            }
+
+            .bot{
+                align-self:flex-start;
+                background:white;
+                color:#222;
+                border-bottom-left-radius:5px;
+            }
+
+            .escribiendo{
+                font-style:italic;
+                color:#666;
+            }
+
+            @keyframes fade{
+                from{
+                    opacity:0;
+                    transform:translateY(10px);
+                }
+                to{
+                    opacity:1;
+                    transform:translateY(0);
+                }
+            }
+
+            .typing::after{
+                content:"";
+                animation:puntos 1s infinite;
+            }
+
+            @keyframes puntos{
+
+                0%{
+                    content:"";
+                }
+                25%{
+                    content:".";
+                }
+                50%{
+                    content:"..";
+                }
+                75%{
+                    content:"...";
+                }
+                100%{
+                    content:"";
+                }
+
+            }
+
         </style>
 
     </head>
@@ -623,27 +698,121 @@
 
         </footer>
 
-        <!-- CONTENEDOR -->
-        <div class="fixed bottom-8 right-5 flex flex-col gap-4 z-50">
+        <!-- CONTENEDOR BOTONES -->
+        <div class="fixed bottom-6 right-6 flex flex-col items-end gap-4 z-50">
 
-            <!-- CHATBOT -->
-            <button onclick="abrirChat()"
-                    class="bg-gradient-to-br from-green-400 via-cyan-300 to-gray-300
-                    p-3 rounded-full shadow-xl hover:scale-110 transition">
-
-                <img src="img/Chatbot.jpg"
-                     alt="Chat ALUNA"
-                     class="w-10 h-10 rounded-full">
+            <!-- CHAT -->
+            <button id="btnChat"
+                    class="w-16 h-16 rounded-full bg-green-700 text-white shadow-xl text-3xl hover:scale-110 transition">
+                🌿
             </button>
 
             <!-- WHATSAPP -->
             <a href="https://wa.me/51967203776"
                target="_blank"
-               class="bg-green-500 p-3 rounded-full shadow-xl hover:scale-110 transition">
+               class="w-16 h-16 bg-green-500 rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition">
 
                 <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
                      class="w-10 h-10">
             </a>
+
+        </div>
+
+        <!-- VENTANA DEL CHAT -->
+
+        <div id="chatBox"
+             class="hidden fixed bottom-24 right-5 w-[380px] max-w-[95vw] h-[580px] max-h-[80vh] bg-white rounded-3xl shadow-2xl overflow-hidden z-50 flex flex-col">
+
+            <!-- CABECERA -->
+            <div class="bg-green-700 text-white px-5 py-4 flex justify-between items-center">
+
+                <div class="flex items-center gap-3">
+
+                    <div class="w-10 h-10 rounded-full bg-white text-green-700 flex items-center justify-center text-xl">
+                        🌿
+                    </div>
+
+                    <div>
+
+                        <div class="font-bold">
+                            AlunaBot
+                        </div>
+
+                        <div class="text-xs text-green-100">
+                            En línea
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button id="btnCerrarChat"
+                        class="text-2xl hover:text-gray-200 transition">
+                    ×
+                </button>
+
+            </div>
+
+            <!-- MENSAJES -->
+            <div id="mensajes"
+                 class="flex-1 overflow-y-auto bg-gray-100 p-4">
+
+                <div class="flex mb-4">
+
+                    <div class="bg-white rounded-2xl rounded-bl-sm shadow p-4 max-w-[85%]">
+
+                        <div class="font-bold text-green-700 mb-2">
+                            🌿 AlunaBot
+                        </div>
+
+                        <div class="text-sm leading-6">
+
+                            ¡Hola! 👋
+
+                            <br><br>
+
+                            Soy <b>AlunaBot</b>, el asistente virtual de <b>ALUNA PERÚ</b>.
+
+                            <br><br>
+
+                            Puedo ayudarte con:
+
+                            <br>🌱 Información sobre plantas
+                            <br>🪴 Cuidados
+                            <br>🚚 Envíos
+                            <br>🛒 Compras
+                            <br>💳 Pedidos
+
+                            <br><br>
+
+                            ¿Qué deseas consultar?
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ESCRIBIR -->
+            <div class="border-t flex">
+
+                <input
+                    id="txtPregunta"
+                    type="text"
+                    placeholder="Escribe tu pregunta..."
+                    class="flex-1 px-4 py-4 outline-none text-sm">
+
+                <button
+                    id="btnEnviar"
+                    class="bg-green-700 hover:bg-green-800 transition text-white px-6">
+
+                    ➤
+
+                </button>
+
+            </div>
 
         </div>
 
@@ -964,30 +1133,6 @@
 
         </div>
 
-        <!-- CHAT FLOTANTE -->
-        <div id="chatBot"
-             class="hidden fixed bottom-24 right-5 w-[400px] h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden z-50">
-
-            <div class="bg-blue-500 text-white p-4 flex justify-between items-center">
-
-                <span class="font-bold">
-                    Asistente ALUNA
-                </span>
-
-                <button onclick="cerrarChat()"
-                        class="text-xl">
-                    ✕
-                </button>
-
-            </div>
-
-            <iframe
-                src="https://poe.com/Chatbot-ALUNA?invite_code=cc1564e9-6349-4c00-892d-62796b2dd5ef"
-                class="w-full h-[calc(100%-60px)] border-0">
-            </iframe>
-
-        </div>
-
         <script>
             function openCheckout() {
                 document.getElementById("checkoutModalBg")
@@ -1127,23 +1272,244 @@
         </script>
 
         <script>
-            function abrirChat() {
-                document.getElementById("chatBot")
-                        .classList.remove("hidden");
-            }
-
-            function cerrarChat() {
-                document.getElementById("chatBot")
-                        .classList.add("hidden");
-            }
-        </script>
-
-        <script>
             function toggleCarrito() {
                 document
                         .getElementById("panelCarrito")
                         .classList.toggle("-translate-x-full");
             }
+        </script>
+
+        <script>
+
+            const btnChat = document.getElementById("btnChat");
+            const chatBox = document.getElementById("chatBox");
+            const btnCerrarChat = document.getElementById("btnCerrarChat");
+
+            const btnEnviar = document.getElementById("btnEnviar");
+            const txtPregunta = document.getElementById("txtPregunta");
+            const mensajes = document.getElementById("mensajes");
+
+
+            /*=========================
+             ABRIR CHAT
+             =========================*/
+
+            btnChat.addEventListener("click", function (e) {
+
+                e.stopPropagation();
+
+                chatBox.classList.toggle("hidden");
+
+                if (!chatBox.classList.contains("hidden")) {
+                    txtPregunta.focus();
+                }
+
+            });
+
+
+            /*=========================
+             CERRAR CHAT
+             =========================*/
+
+            btnCerrarChat.addEventListener("click", function () {
+
+                chatBox.classList.add("hidden");
+
+            });
+
+
+            /*=========================
+             NO CERRAR SI HACE CLICK DENTRO
+             =========================*/
+
+            chatBox.addEventListener("click", function (e) {
+
+                e.stopPropagation();
+
+            });
+
+
+            /*=========================
+             CERRAR SI HACE CLICK FUERA
+             =========================*/
+
+            document.addEventListener("click", function () {
+
+                chatBox.classList.add("hidden");
+
+            });
+
+
+            /*=========================
+             AGREGAR MENSAJES
+             =========================*/
+
+            function agregarMensaje(usuario, texto, mio) {
+
+                const contenedor = document.createElement("div");
+
+                contenedor.className =
+                        "flex mb-4 " +
+                        (mio ? "justify-end" : "justify-start");
+
+
+                const burbuja = document.createElement("div");
+
+                burbuja.className =
+                        "max-w-[80%] px-4 py-3 rounded-2xl shadow " +
+                        (mio
+                                ? "bg-green-700 text-white rounded-br-sm"
+                                : "bg-white text-gray-800 rounded-bl-sm");
+
+
+                const nombre = document.createElement("div");
+
+                nombre.className = "font-bold text-sm mb-2";
+
+                nombre.innerHTML = mio ? "🧑 Tú" : "🌿 AlunaBot";
+
+
+                const cuerpo = document.createElement("div");
+
+                cuerpo.className = "texto whitespace-pre-wrap";
+
+                cuerpo.textContent = texto;
+
+
+                burbuja.appendChild(nombre);
+                burbuja.appendChild(cuerpo);
+
+                contenedor.appendChild(burbuja);
+
+                mensajes.appendChild(contenedor);
+
+                mensajes.scrollTop = mensajes.scrollHeight;
+
+                return burbuja;
+
+            }
+
+
+            /*=========================
+             EFECTO DE ESCRITURA
+             =========================*/
+
+            async function escribirTexto(elemento, texto) {
+
+                elemento.textContent = "";
+
+                for (let i = 0; i < texto.length; i++) {
+
+                    elemento.textContent += texto.charAt(i);
+
+                    mensajes.scrollTop = mensajes.scrollHeight;
+
+                    await new Promise(resolve => setTimeout(resolve, 12));
+
+                }
+
+            }
+
+
+            /*=========================
+             ENVIAR PREGUNTA
+             =========================*/
+
+            async function enviarPregunta() {
+
+                const pregunta = txtPregunta.value.trim();
+
+                if (pregunta === "")
+                    return;
+
+
+                agregarMensaje("Tú", pregunta, true);
+
+                txtPregunta.value = "";
+
+
+                btnEnviar.disabled = true;
+                txtPregunta.disabled = true;
+
+
+                const escribiendo =
+                        agregarMensaje("AlunaBot", "Escribiendo...", false);
+
+
+                try {
+
+                    const datos = new URLSearchParams();
+
+                    datos.append("mensaje", pregunta);
+
+
+                    const resp = await fetch("chat", {
+
+                        method: "POST",
+                        body: datos
+
+                    });
+
+
+                    const respuesta = await resp.text();
+
+
+                    escribiendo.parentElement.remove();
+
+
+                    const burbuja =
+                            agregarMensaje("AlunaBot", "", false);
+
+
+                    await escribirTexto(
+                            burbuja.querySelector(".texto"),
+                            respuesta
+                            );
+
+
+                } catch (e) {
+
+                    escribiendo.parentElement.remove();
+
+                    agregarMensaje(
+                            "AlunaBot",
+                            "Lo siento, ocurrió un error al conectarme.",
+                            false
+                            );
+
+                }
+
+
+                btnEnviar.disabled = false;
+                txtPregunta.disabled = false;
+                txtPregunta.focus();
+
+            }
+
+
+            /*=========================
+             BOTÓN ENVIAR
+             =========================*/
+
+            btnEnviar.addEventListener("click", enviarPregunta);
+
+
+            /*=========================
+             ENTER
+             =========================*/
+
+            txtPregunta.addEventListener("keydown", function (e) {
+
+                if (e.key === "Enter") {
+
+                    e.preventDefault();
+
+                    enviarPregunta();
+
+                }
+
+            });
+
         </script>
 
     </body>
