@@ -179,10 +179,7 @@
 
                 </p>
 
-
-
-                <a href="${pageContext.request.contextPath}/AdminPlantaServlet"
-
+                <a href="${pageContext.request.contextPath}/AdminPlantaServlet?accion=listar"
                    class="
                    block
                    text-center
@@ -193,14 +190,13 @@
                    rounded-2xl
                    font-bold
                    shadow-lg
-                   transition
-                   ">
-
+                   transition">
 
                     🌿 Administrar catálogo
 
-
                 </a>
+
+                
 
 
             </div>
