@@ -22,8 +22,15 @@ public class IAService {
             // Limpiar pregunta
             String texto = limpiarPregunta(pregunta);
 
-            // Buscar productos parecidos
-            List<Planta> plantas = plantaDAO.buscarSimilares(texto);
+            int categoria = detectarCategoria(texto);
+
+            List<Planta> plantas;
+
+            if (categoria != 0) {
+                plantas = plantaDAO.buscarPorCategoria(categoria);
+            } else {
+                plantas = plantaDAO.buscarSimilares(texto);
+            }
 
             String contexto = "";
 
@@ -173,6 +180,59 @@ public class IAService {
 
         return texto;
 
+    }
+
+    private int detectarCategoria(String texto) {
+
+        texto = texto.toLowerCase();
+
+        if (texto.contains("monstera")) {
+            return 1;
+        }
+        if (texto.contains("syngonium")) {
+            return 2;
+        }
+        if (texto.contains("caladium")) {
+            return 3;
+        }
+        if (texto.contains("begonia")) {
+            return 4;
+        }
+        if (texto.contains("calathea")) {
+            return 5;
+        }
+        if (texto.contains("aglaonema")) {
+            return 6;
+        }
+        if (texto.contains("helecho")) {
+            return 7;
+        }
+        if (texto.contains("philodendron")) {
+            return 8;
+        }
+        if (texto.contains("croton")) {
+            return 9;
+        }
+        if (texto.contains("anthurium")) {
+            return 10;
+        }
+        if (texto.contains("colocasia")) {
+            return 11;
+        }
+        if (texto.contains("alocasia")) {
+            return 12;
+        }
+        if (texto.contains("epipremnum")) {
+            return 13;
+        }
+        if (texto.contains("peperomia")) {
+            return 14;
+        }
+        if (texto.contains("episcia")) {
+            return 15;
+        }
+
+        return 0;
     }
 
 }

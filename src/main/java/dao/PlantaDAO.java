@@ -74,6 +74,51 @@ public class PlantaDAO {
 
     }
 
+    public List<Planta> buscarPorCategoria(int idCategoria) {
+
+        List<Planta> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM producto WHERE idCategoria = ?";
+
+        try {
+
+            Connection con = Conexion.getConexion();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, idCategoria);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Planta p = new Planta();
+
+                p.setId(rs.getInt("idProducto"));
+                p.setNombre(rs.getString("nombre"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setStock(rs.getInt("stock"));
+                p.setDescripcion(rs.getString("descripcion"));
+                p.setImagen(rs.getString("imagen"));
+                p.setIdCategoria(rs.getInt("idCategoria"));
+
+                lista.add(p);
+
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return lista;
+
+    }
+
     public List<Planta> listar() {
 
         List<Planta> lista = new ArrayList<>();
