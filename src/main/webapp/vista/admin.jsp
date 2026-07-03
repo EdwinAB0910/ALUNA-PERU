@@ -196,7 +196,7 @@
 
                 </a>
 
-                
+
 
 
             </div>
@@ -275,6 +275,57 @@
 
                 </a>
 
+
+            </div>
+            <!-- CARD PEDIDOS -->
+
+            <div class="
+                 bg-white
+                 rounded-3xl
+                 shadow-2xl
+                 p-8
+                 hover:-translate-y-2
+                 transition
+                 border
+                 border-yellow-200
+                 ">
+
+                <div class="text-6xl mb-5">
+                    📦
+                </div>
+
+                <h2 class="
+                    text-3xl
+                    font-bold
+                    text-yellow-700
+                    mb-3
+                    ">
+                    Gestionar Pedidos
+                </h2>
+
+                <p class="
+                   text-gray-600
+                   mb-6
+                   ">
+                    Ver todos los pedidos realizados por los clientes y actualizar su estado.
+                </p>
+
+                <a href="${pageContext.request.contextPath}/adminPedidos"
+                   class="
+                   block
+                   text-center
+                   bg-yellow-500
+                   hover:bg-yellow-600
+                   text-white
+                   py-4
+                   rounded-2xl
+                   font-bold
+                   shadow-lg
+                   transition">
+
+                    📦 Ver pedidos
+
+                </a>
 
             </div>
 

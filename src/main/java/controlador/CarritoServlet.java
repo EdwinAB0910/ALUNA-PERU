@@ -16,7 +16,6 @@ public class CarritoServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-
         try {
             Connection con = Conexion.getConexion();
 
@@ -49,7 +48,6 @@ public class CarritoServlet extends HttpServlet {
             req.setAttribute("carrito", service.verCarrito(idUsuario));
             req.setAttribute("total", service.total(idUsuario));
 
-            // 🔥 IMPORTANTE: volver al catálogo, no a carrito.jsp
             req.getRequestDispatcher("catalogo").forward(req, resp);
 
         } catch (Exception e) {
@@ -63,6 +61,7 @@ public class CarritoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
         req.setCharacterEncoding("UTF-8");
 
         try {
@@ -85,35 +84,31 @@ public class CarritoServlet extends HttpServlet {
 
             int idUsuario = (Integer) session.getAttribute("idUsuario");
 
+            // =========================
+            // AGREGAR PRODUCTO
+            // =========================
             if ("agregar".equals(accion)) {
 
-                System.out.println("AGREGANDO PRODUCTO");
-
-                int idProducto
-                        = Integer.parseInt(req.getParameter("idProducto"));
-
-                double precio
-                        = Double.parseDouble(req.getParameter("precio"));
-
+                int idProducto = Integer.parseInt(req.getParameter("idProducto"));
+                double precio = Double.parseDouble(req.getParameter("precio"));
                 int cantidad = Integer.parseInt(req.getParameter("cantidad"));
 
-                service.agregar(
-                        idUsuario,
-                        idProducto,
-                        cantidad,
-                        precio
-                );
+                service.agregar(idUsuario, idProducto, cantidad, precio);
             }
 
+            // =========================
+            // ELIMINAR PRODUCTO
+            // =========================
             if ("eliminar".equals(accion)) {
 
-                int idProducto = Integer.parseInt(
-                        req.getParameter("idProducto")
-                );
+                int idProducto = Integer.parseInt(req.getParameter("idProducto"));
 
                 service.eliminar(idUsuario, idProducto);
             }
 
+            // =========================
+            // FINALIZAR COMPRA
+            // =========================
             if ("finalizarCompra".equals(accion)) {
 
                 String direccion = req.getParameter("direccion");
@@ -137,11 +132,15 @@ public class CarritoServlet extends HttpServlet {
                         distrito
                 );
 
-                resp.sendRedirect("catalogo");
+                // ✔ FORWARD (CORRECTO EN TU PROYECTO MVC)
+                req.getRequestDispatcher("/vista/estadoPedido.jsp")
+                   .forward(req, resp);
                 return;
             }
 
-            // 🔥 SIEMPRE REGRESA AL CATÁLOGO
+            // =========================
+            // DEFAULT
+            // =========================
             resp.sendRedirect("catalogo");
 
         } catch (Exception e) {

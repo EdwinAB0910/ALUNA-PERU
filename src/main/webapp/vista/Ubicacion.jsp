@@ -66,6 +66,10 @@
                    class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
                     Ubicación
                 </a>
+                <a href="${pageContext.request.contextPath}/historial"
+                   class="bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
+                    Mis compras
+                </a>
 
                 <%
                     modelo.Usuario u
