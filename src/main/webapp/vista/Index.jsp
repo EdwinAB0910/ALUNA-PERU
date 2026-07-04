@@ -57,6 +57,11 @@
                         Catálogo
                     </a>
 
+                    <a href="${pageContext.request.contextPath}/cuidados"
+                       class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
+                        Cuidados
+                    </a>
+
                     <a href="${pageContext.request.contextPath}/consultas"
                        class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
                         Consultas
@@ -196,42 +201,103 @@
 
                 </div>
 
+                <!-- NUESTRA HISTORIA Y COMPROMISO -->
+                <div class="grid md:grid-cols-2 gap-8 mt-16">
 
+                    <!-- Historia -->
+                    <div
+                        class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
+                        p-8 rounded-2xl shadow-xl hover:-translate-y-2 transition duration-300 border border-white/40 text-center">
 
-                <!-- CARDS -->
-                <div class="grid md:grid-cols-3 gap-6 mt-16">
+                        <i class="fas fa-seedling text-4xl text-green-700 mb-4"></i>
 
-                    <div class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
-                         backdrop-blur-md p-8 rounded-2xl shadow-xl text-center
-                         hover:-translate-y-2 hover:shadow-2xl transition duration-300 border border-white/40">
-                        <i class="fas fa-seedling text-4xl text-green-800 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">Misión</h3>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">
-                            Ofrecer plantas cuidadosamente seleccionadas.
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-3">
+                            Nuestra Historia
+                        </h3>
+
+                        <p class="text-gray-700 dark:text-gray-300 leading-7">
+                            ALUNA nació en Chanchamayo, en el corazón de la Selva Central,
+                            con la idea de acercar plantas únicas a quienes buscan darle
+                            vida y bienestar a sus espacios. Desde entonces, cada planta que
+                            ofrecemos es seleccionada cuidando su origen, salud y presencia.
                         </p>
+
                     </div>
 
-                    <div class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
-                         backdrop-blur-md p-8 rounded-2xl shadow-xl text-center
-                         hover:-translate-y-2 hover:shadow-2xl transition duration-300 border border-white/40">
-                        <i class="fas fa-leaf text-4xl text-green-800 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">Visión</h3>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">
-                            Ser referente en diseño y comercialización de plantas.
-                        </p>
-                    </div>
+                    <!-- Compromiso -->
+                    <div
+                        class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
+                        p-8 rounded-2xl shadow-xl hover:-translate-y-2 transition duration-300 border border-white/40 text-center">
 
-                    <div class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
-                         backdrop-blur-md p-8 rounded-2xl shadow-xl text-center
-                         hover:-translate-y-2 hover:shadow-2xl transition duration-300 border border-white/40">
-                        <i class="fas fa-tree text-4xl text-green-800 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">Valores</h3>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">
-                            Calidad, estética natural y compromiso.
+                        <i class="fas fa-hands-holding-circle text-4xl text-green-700 mb-4"></i>
+
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-3">
+                            Nuestro Compromiso
+                        </h3>
+
+                        <p class="text-gray-700 dark:text-gray-300 leading-7">
+                            Acompañamos a nuestros clientes en todo el proceso: desde elegir
+                            la planta correcta hasta brindar consejos de cuidado, para que
+                            cada compra se convierta en una experiencia duradera y de confianza.
                         </p>
+
                     </div>
 
                 </div>
+
+                <!-- MISIÓN - VISIÓN - VALORES -->
+                <div class="grid md:grid-cols-3 gap-6 mt-12">
+
+                    <div class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
+                         backdrop-blur-md p-8 rounded-2xl shadow-xl text-center
+                         hover:-translate-y-2 hover:shadow-2xl transition duration-300 border border-white/40">
+
+                        <i class="fas fa-bullseye text-4xl text-green-800 mb-4"></i>
+
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">
+                            Misión
+                        </h3>
+
+                        <p class="text-sm text-gray-700 dark:text-gray-300">
+                            Ofrecer plantas cuidadosamente seleccionadas.
+                        </p>
+
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
+                         backdrop-blur-md p-8 rounded-2xl shadow-xl text-center
+                         hover:-translate-y-2 hover:shadow-2xl transition duration-300 border border-white/40">
+
+                        <i class="fas fa-eye text-4xl text-green-800 mb-4"></i>
+
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">
+                            Visión
+                        </h3>
+
+                        <p class="text-sm text-gray-700 dark:text-gray-300">
+                            Ser referente en diseño y comercialización de plantas.
+                        </p>
+
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-100 via-slate-100 to-cyan-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900
+                         backdrop-blur-md p-8 rounded-2xl shadow-xl text-center
+                         hover:-translate-y-2 hover:shadow-2xl transition duration-300 border border-white/40">
+
+                        <i class="fas fa-tree text-4xl text-green-800 mb-4"></i>
+
+                        <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">
+                            Valores
+                        </h3>
+
+                        <p class="text-sm text-gray-700 dark:text-gray-300">
+                            Calidad, estética natural y compromiso.
+                        </p>
+
+                    </div>
+
+                </div>
+
             </section>
 
             <!-- FOOTER -->

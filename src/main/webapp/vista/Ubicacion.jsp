@@ -57,6 +57,11 @@
                     Catálogo
                 </a>
 
+                <a href="${pageContext.request.contextPath}/cuidados"
+                   class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
+                    Cuidados
+                </a>
+
                 <a href="${pageContext.request.contextPath}/consultas"
                    class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
                     Consultas

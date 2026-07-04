@@ -10,7 +10,7 @@ public class Conexion {
             "jdbc:mysql://localhost:3306/aluna";
 
     private static final String USER = "root";
-    private static final String PASSWORD = "cheveremano";
+    private static final String PASSWORD = "";
 
     public static Connection getConexion() {
 

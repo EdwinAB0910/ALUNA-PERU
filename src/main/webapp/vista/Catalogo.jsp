@@ -221,6 +221,11 @@
                     Catálogo
                 </a>
 
+                <a href="${pageContext.request.contextPath}/cuidados"
+                   class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
+                    Cuidados
+                </a>
+
                 <a href="${pageContext.request.contextPath}/consultas"
                    class="bg-gradient-to-r from-cyan-200 to-white bg-clip-text text-transparent hover:scale-105 transition">
                     Consultas
@@ -622,11 +627,11 @@
                             <p class="font-semibold"><%= item.get("nombre")%></p>
 
                             <p class="text-sm">
-                                <%= item.get("cantidad")%> x S/. <%= item.get("precio")%>
+                                <%= item.get("cantidad")%> x S/. <%= String.format("%.2f", ((Number) item.get("precio")).doubleValue())%>
                             </p>
 
                             <p class="text-green-700 font-bold">
-                                S/. <%= item.get("subtotal")%>
+                                S/. <%= String.format("%.2f", ((Number) item.get("subtotal")).doubleValue())%>
                             </p>
                         </div>
 
@@ -659,7 +664,7 @@
                 <div class="p-6 border-t mt-auto">
 
                     <h3 class="text-xl font-bold text-green-700">
-                        Total: S/. <%= total%>
+                        Total: S/. <%= String.format("%.2f", total)%>
                     </h3>
 
                     <button onclick="openCheckout()"
