@@ -7,30 +7,18 @@ public class Conexion {
 
     public static Connection getConexion() {
         Connection con = null;
-
-        // 1. Intentamos leer las variables de entorno de Render
-        String url = System.getenv("DB_URL");
-        String user = System.getenv("DB_USER");
-        String password = System.getenv("DB_PASSWORD");
-
-        // 2. Si no existen (porque estás en tu PC local), usamos tus credenciales de localhost
-        if (url == null || url.isEmpty()) {
-            url = "jdbc:mysql://localhost:3306/aluna";
-            user = "root";
-            password = "";
-        }
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            
+            // Datos exactos de tu panel de Clever Cloud:
+            String url = "jdbc:mysql://bifbghhr6yfmfoafwe4u-mysql.services.clever-cloud.com:3306/bifbghhr6yfmfoafwe4u?useSSL=false&serverTimezone=UTC";
+            String user = "ur7jfcdbb4ubswpd"; 
+            String pass = "TU_CONTRASEÑA_DE_CLEVER_CLOUD"; // Dale clic al candado naranja en tu panel para verla y copiarla
 
-            con = DriverManager.getConnection(url, user, password);
-            System.out.println("CONECTADO A LA BASE DE DATOS CORRECTAMENTE");
-
+            con = DriverManager.getConnection(url, user, pass);
         } catch (Exception e) {
-            System.out.println("ERROR EN LA CONEXIÓN: " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("Error en la conexión BD: " + e.getMessage());
         }
-
         return con;
     }
 }
