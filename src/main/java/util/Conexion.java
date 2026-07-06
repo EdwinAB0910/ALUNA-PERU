@@ -13,7 +13,7 @@ public class Conexion {
             // Datos exactos de tu panel de Clever Cloud:
             String url = "jdbc:mysql://bifbghhr6yfmfoafwe4u-mysql.services.clever-cloud.com:3306/bifbghhr6yfmfoafwe4u?useSSL=false&serverTimezone=UTC";
             String user = "ur7jfcdbb4ubswpd"; 
-            String pass = "TU_CONTRASEÑA_DE_CLEVER_CLOUD"; // Dale clic al candado naranja en tu panel para verla y copiarla
+            String pass = "01sknrMNSVIOcHc3RqVF"; // Dale clic al candado naranja en tu panel para verla y copiarla
 
             con = DriverManager.getConnection(url, user, pass);
         } catch (Exception e) {
