@@ -9,15 +9,13 @@ public class Conexion {
         Connection con = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            
-            // Datos exactos de tu panel de Clever Cloud:
-            String url = "jdbc:mysql://bifbghhr6yfmfoafwe4u-mysql.services.clever-cloud.com:3306/bifbghhr6yfmfoafwe4u?useSSL=false&serverTimezone=UTC";
+            String url = "jdbc:mysql://bifbghhr6yfmfoafwe4u-mysql.services.clever-cloud.com:3306/bifbghhr6yfmfoafwe4u?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
             String user = "ur7jfcdbb4ubswpd"; 
-            String pass = "01sknrMNSVIOcHc3RqVF"; // Dale clic al candado naranja en tu panel para verla y copiarla
+            String pass = "01sknrMNSVIOcHc3RqVF"; 
 
             con = DriverManager.getConnection(url, user, pass);
         } catch (Exception e) {
-            System.out.println("Error en la conexión BD: " + e.getMessage());
+            System.out.println("Error conexión: " + e.getMessage());
         }
         return con;
     }
