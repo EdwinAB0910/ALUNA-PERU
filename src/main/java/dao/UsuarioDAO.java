@@ -35,13 +35,14 @@ public class UsuarioDAO {
 
         Usuario u = null;
 
-        try (Connection con = Conexion.getConexion()) {
+        // Forzamos la búsqueda usando LOWER() para evitar problemas de mayúsculas en la nube
+        String sql = "SELECT * FROM usuario WHERE LOWER(email) = LOWER(?) AND clave = ?";
 
-            String sql = "SELECT * FROM usuario WHERE email=? AND clave=?";
+        try (Connection con = Conexion.getConexion()) {
 
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setString(1, email);
+            ps.setString(1, email.trim()); // .trim() elimina espacios vacíos accidentales
             ps.setString(2, clave);
 
             ResultSet rs = ps.executeQuery();
@@ -53,12 +54,16 @@ public class UsuarioDAO {
                 u.setIdUsuario(rs.getInt("idUsuario"));
                 u.setNombres(rs.getString("nombres"));
                 u.setApellidos(rs.getString("apellidos"));
-                u.setEmail(rs.getString("email"));
+                u.setEmail(rs.getString("email")); // Si tu columna es 'correo', cambia esto a "correo"
                 u.setIdRol(rs.getInt("idRol"));
             }
 
+            rs.close();
+            ps.close();
+
         } catch (Exception e) {
-            System.out.println("Error login: " + e.getMessage());
+            System.out.println("Error login en la nube: " + e.getMessage());
+            e.printStackTrace();
         }
 
         return u;
