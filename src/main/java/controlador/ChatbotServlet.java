@@ -3,6 +3,9 @@ package controlador;
 import Servicios.IAService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -21,11 +24,33 @@ public class ChatbotServlet extends HttpServlet {
 
         String mensaje = req.getParameter("mensaje");
 
-        System.out.println("MENSAJE RECIBIDO = " + mensaje);
+        HttpSession session = req.getSession();
 
-        String respuesta = ia.preguntar(mensaje);
+        List<String> historial =
+                (List<String>) session.getAttribute("historial");
 
-        System.out.println("RESPUESTA IA = " + respuesta);
+        if (historial == null) {
+            historial = new ArrayList<>();
+        }
+
+        // Guardar mensaje del usuario
+        historial.add("Usuario: " + mensaje);
+
+        // Mantener solo los últimos 10 mensajes
+        if (historial.size() > 10) {
+            historial.remove(0);
+        }
+
+        String respuesta = ia.preguntar(mensaje, historial);
+
+        // Guardar respuesta del bot
+        historial.add("ALUNABOT: " + respuesta);
+
+        if (historial.size() > 10) {
+            historial.remove(0);
+        }
+
+        session.setAttribute("historial", historial);
 
         resp.setContentType("text/plain;charset=UTF-8");
         resp.getWriter().print(respuesta);

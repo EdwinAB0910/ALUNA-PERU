@@ -118,8 +118,10 @@ public class PedidoDAO {
     public List<Map<String, Object>> listarPedidosPorUsuario(int idUsuario) throws SQLException {
 
         String sql
-                = "SELECT idPedido, idUsuario, fecha, total, estado, direccion "
-                + "FROM pedido WHERE idUsuario=? AND estado != 'CARRITO' "
+                = "SELECT idPedido, idUsuario, fecha, total, estado, "
+                + "direccion, telefono, metodoPago "
+                + "FROM pedido "
+                + "WHERE idUsuario=? AND estado <> 'CARRITO' "
                 + "ORDER BY idPedido DESC";
 
         PreparedStatement ps = con.prepareStatement(sql);
@@ -138,6 +140,9 @@ public class PedidoDAO {
             item.put("total", rs.getDouble("total"));
             item.put("estado", rs.getString("estado"));
             item.put("direccion", rs.getString("direccion"));
+
+            item.put("telefono", rs.getString("telefono"));
+            item.put("metodoPago", rs.getString("metodoPago"));
 
             lista.add(item);
         }

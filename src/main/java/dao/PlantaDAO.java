@@ -12,6 +12,43 @@ import java.util.List;
 
 public class PlantaDAO {
 
+    public List<Planta> buscarPorTexto(String texto) throws Exception {
+        
+        Connection con = Conexion.getConexion();
+
+        List<Planta> lista = new ArrayList<>();
+
+        String sql
+                = "SELECT * FROM planta "
+                + "WHERE nombre LIKE ? "
+                + "OR descripcion LIKE ?";
+
+        PreparedStatement ps
+                    = con.prepareStatement(sql.toString());
+
+        ps.setString(1, "%" + texto + "%");
+        ps.setString(2, "%" + texto + "%");
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+
+            Planta p = new Planta();
+
+            p.setId(rs.getInt("idPlanta"));
+            p.setNombre(rs.getString("nombre"));
+            p.setDescripcion(rs.getString("descripcion"));
+            p.setPrecio(rs.getDouble("precio"));
+            p.setStock(rs.getInt("stock"));
+
+            lista.add(p);
+
+        }
+
+        return lista;
+
+    }
+
     public List<Planta> buscarSimilares(String texto) {
 
         List<Planta> lista = new ArrayList<>();
