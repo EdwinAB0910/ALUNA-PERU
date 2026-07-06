@@ -2,7 +2,6 @@ package controlador;
 
 import dao.UsuarioDAO;
 import modelo.Usuario;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,34 +18,23 @@ public class LoginServlet extends HttpServlet {
 
         UsuarioDAO dao = new UsuarioDAO();
         Usuario u = dao.login(email, clave);
+        
+        HttpSession session = request.getSession();
 
         if (u != null) {
-            HttpSession session = request.getSession();
-
+            // Guardamos los datos en la sesión
             session.setAttribute("usuario", u);
             session.setAttribute("idUsuario", u.getIdUsuario());
-            session.setAttribute("rol", u.getIdRol());
+            session.setAttribute("rol", u.getIdRol()); // Guardará 1 para Admin, 2 para Cliente
 
             session.removeAttribute("errorLogin");
-
-            // =======================================================
-            // REDIRECCIÓN SEGÚN EL ROL REAL DE LA BASE DE DATOS
-            // =======================================================
-            if (u.getIdRol() == 1) {
-                // Si es Admin (idRol 1), lo mandamos a su panel de gestión
-                // Nota: Asegúrate de que la ruta coincida con tu carpeta/servlet de administración (ej: "admin/dashboard.jsp" o "admin")
-                response.sendRedirect("admin/dashboard.jsp"); 
-            } else {
-                // Si es Cliente (idRol 2) o cualquier otro, va al inicio de la tienda
-                response.sendRedirect("inicio");
-            }
+            
+            // Regresa a la página principal ya logueado
+            response.sendRedirect("inicio");
 
         } else {
-            HttpSession session = request.getSession();
             session.setAttribute("errorLogin", "Usuario o contraseña incorrectos");
-            
-            // Si falla, regresa a la página donde está tu formulario de login
-            response.sendRedirect("inicio"); 
+            response.sendRedirect("inicio");
         }
     }
 }
