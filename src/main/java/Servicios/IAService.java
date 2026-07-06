@@ -2,14 +2,6 @@ package Servicios;
 
 import dao.PlantaDAO;
 import modelo.Planta;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 public class IAService {
@@ -17,196 +9,74 @@ public class IAService {
     private PlantaDAO plantaDAO = new PlantaDAO();
 
     public String preguntar(String pregunta, List<String> historial) {
-
         try {
             String texto = limpiarPregunta(pregunta);
 
-            // ===========================
-            // RESPUESTAS RÁPIDAS
-            // ===========================
-            if (texto.contains("horario")) {
+            // ==========================================
+            // 1. RESPUESTAS RÁPIDAS (Flujo original)
+            // ==========================================
+            if (texto.contains("horario") || texto.contains("hora")) {
                 return "🌿 Nuestro horario de atención es de lunes a sábado de 9:00 a.m. a 7:00 p.m.";
             }
 
-            if (texto.contains("ubicacion")
-                    || texto.contains("dirección")
-                    || texto.contains("donde estan")) {
+            if (texto.contains("ubicacion") || texto.contains("dirección") || texto.contains("donde estan")) {
                 return "📍 ALUNA PERÚ se encuentra en Lima, Perú. También puedes revisar la sección 'Ubicación' de nuestra página.";
             }
 
-            if (texto.contains("whatsapp")) {
+            if (texto.contains("whatsapp") || texto.contains("celular") || texto.contains("teléfono")) {
                 return "📱 Puedes comunicarte con nosotros al WhatsApp 967203776.";
             }
 
-            if (texto.contains("envio")
-                    || texto.contains("delivery")) {
-                return "🚚 Realizamos envíos. Durante la compra podrás registrar la dirección donde deseas recibir tu pedido.";
+            if (texto.contains("envio") || texto.contains("delivery") || texto.contains("enviar")) {
+                return "🚚 Realizamos envíos a domicilio. Durante el proceso de compra podrás registrar tu dirección exacta.";
             }
 
-            if (texto.contains("pago")
-                    || texto.contains("tarjeta")
-                    || texto.contains("yape")
-                    || texto.contains("plin")) {
-                return "💳 Los métodos de pago disponibles aparecen durante el proceso de compra.";
+            if (texto.contains("pago") || texto.contains("tarjeta") || texto.contains("yape") || texto.contains("plin")) {
+                return "💳 Los métodos de pago disponibles (Yape, Plin, Tarjetas) aparecen durante el proceso de compra.";
+            }
+            
+            if (texto.contains("hola") || texto.contains("buenos dias") || texto.contains("buenas tardes")) {
+                return "👋 ¡Hola! Soy ALUNABOT, tu asistente virtual. ¿En qué planta o servicio de ALUNA PERÚ te gustaría que te ayude hoy?";
             }
 
-            // ===========================
-            // BUSCAR PRODUCTOS
-            // ===========================
-            List<Planta> plantas = plantaDAO.buscarPorTexto(texto);
-            StringBuilder contexto = new StringBuilder();
+            // ==========================================
+            // 2. BÚSQUEDA DIRECTA EN BASE DE DATOS (Simula la IA)
+            // ==========================================
+            if (texto.length() > 2) { 
+                List<Planta> plantas = plantaDAO.buscarPorTexto(texto);
 
-            if (!plantas.isEmpty()) {
-                contexto.append("PRODUCTOS DISPONIBLES EN ALUNA:\n\n");
-                for (Planta p : plantas) {
-                    contexto.append("Nombre: ").append(p.getNombre()).append("\n");
-                    contexto.append("Precio: S/").append(p.getPrecio()).append("\n");
-                    contexto.append("Stock: ").append(p.getStock()).append("\n");
-                    contexto.append("Descripción: ").append(p.getDescripcion()).append("\n\n");
+                if (!plantas.isEmpty()) {
+                    Planta p = plantas.get(0); // Tomamos la coincidencia más exacta
+                    
+                    String estadoStock = (p.getStock() > 0) 
+                        ? "🟢 ¡Sí tenemos disponibles! Contamos con " + p.getStock() + " unidades en stock." 
+                        : "🔴 Actualmente se encuentra agotado.";
+
+                    return "🌿 **¡Hola! He buscado en nuestro catálogo:**\n\n"
+                            + "📋 **Nombre:** " + p.getNombre() + "\n"
+                            + "💰 **Precio:** S/ " + p.getPrecio() + "\n"
+                            + "📦 **Disponibilidad:** " + estadoStock + "\n"
+                            + "📝 **Descripción:** " + p.getDescripcion() + "\n\n"
+                            + "✨ ¿Te gustaría que te ayude a iniciar el proceso de compra de esta planta?";
                 }
-            } else {
-                contexto.append("No se encontraron productos relacionados con la consulta.\n\n");
             }
 
-            StringBuilder conversacion = new StringBuilder();
-            if (historial != null && !historial.isEmpty()) {
-                conversacion.append("CONVERSACIÓN ANTERIOR:\n\n");
-                for (String linea : historial) {
-                    conversacion.append(linea).append("\n");
-                }
-                conversacion.append("\n");
-            }
-
-            // ===========================
-            // SYSTEM PROMPT (Instrucciones de Personalidad)
-            // ===========================
-            String systemInstructions = "Eres ALUNABOT, el asistente virtual oficial de ALUNA PERÚ.\n\n"
-                    + conversacion
-                    + "PERSONALIDAD:\n"
-                    + "- Amable.\n"
-                    + "- Profesional.\n"
-                    + "- Responde de forma clara.\n"
-                    + "- No escribas respuestas demasiado largas.\n\n"
-                    + "CONTEXTO:\n"
-                    + contexto
-                    + "REGLAS:\n"
-                    + "- Nunca inventes productos.\n"
-                    + "- Usa únicamente la información del contexto cuando existan productos.\n"
-                    + "- Si el stock es mayor que 0 indica que está disponible.\n"
-                    + "- Si el stock es 0 indica que está agotado.\n"
-                    + "- Si preguntan por cuidados puedes responder usando conocimientos de jardinería.\n"
-                    + "- Si preguntan por un producto inexistente indica que actualmente no está registrado en ALUNA.\n"
-                    + "- Si preguntan temas ajenos a ALUNA responde amablemente que solo puedes ayudar con plantas y servicios de ALUNA.";
-
-            // ===========================
-            // CONSTRUCCIÓN DEL JSON PARA GROQ (Estructura Chat)
-            // ===========================
-            JSONObject body = new JSONObject();
-            // Usamos el modelo ultra rápido y gratuito recomendado de Groq
-            body.put("model", "llama-3.1-8b-instant"); 
-            
-            JSONArray messages = new JSONArray();
-            
-            // Mensaje del sistema (Instrucciones)
-            JSONObject sysMsg = new JSONObject();
-            sysMsg.put("role", "system");
-            sysMsg.put("content", systemInstructions);
-            messages.put(sysMsg);
-            
-            // Mensaje del usuario (Pregunta actual)
-            JSONObject userMsg = new JSONObject();
-            userMsg.put("role", "user");
-            userMsg.put("content", pregunta);
-            messages.put(userMsg);
-            
-            body.put("messages", messages);
-
-            // ===========================
-            // CONEXIÓN A LA API DE GROQ
-            // ===========================
-            URL url = new URL("https://api.groq.com/openai/v1/chat/completions");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-            // Obtenemos la API Key desde las variables de Render
-            String apiKey = System.getenv("GROQ_API_KEY");
-            if (apiKey == null || apiKey.isEmpty()) {
-                // Si estás en tu PC local, puedes poner tu clave gsk_ fija de prueba aquí
-                apiKey = "TU_API_KEY_DE_GROQ_AQUI"; 
-            }
-
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("Authorization", "Bearer " + apiKey); // Cabecera obligatoria en Groq
-            con.setDoOutput(true);
-
-            try (OutputStream os = con.getOutputStream()) {
-                os.write(body.toString().getBytes("UTF-8"));
-            }
-
-            int codigo = con.getResponseCode();
-            BufferedReader br;
-
-            if (codigo == 200) {
-                br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-            } else {
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream(), "UTF-8"));
-            }
-
-            StringBuilder respuesta = new StringBuilder();
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                respuesta.append(linea);
-            }
-            br.close();
-
-            if (codigo != 200) {
-                System.out.println("Error de Groq. Código HTTP: " + codigo + " Cuerpo: " + respuesta.toString());
-                return "No fue posible conectar con ALUNABOT.";
-            }
-
-            // ===========================
-            // PARSEO DEL JSON DE GROQ
-            // ===========================
-            JSONObject json = new JSONObject(respuesta.toString());
-            // Estructura estándar OpenAI: choices[0].message.content
-            String textoRespuesta = json.getJSONArray("choices")
-                                        .getJSONObject(0)
-                                        .getJSONObject("message")
-                                        .getString("content");
-
-            return textoRespuesta.trim();
+            // ==========================================
+            // 3. RESPUESTA POR DEFECTO
+            // ==========================================
+            return "🤖 Actualmente no encontré plantas registradas con ese nombre en ALUNA, o la pregunta está fuera de mis servicios.\n\n"
+                 + "Prueba consultándome por plantas específicas (ej: *Orquídea, Suculenta, Helecho*) o por nuestros *horarios* o *whatsapp*.";
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Lo siento, ocurrió un error al consultar ALUNABOT.";
+            return "Lo siento, ocurrió un inconveniente temporal para conectar con ALUNABOT.";
         }
     }
 
     private String limpiarPregunta(String texto) {
+        if (texto == null) return "";
         texto = texto.toLowerCase();
-        texto = texto.replace("hay", "");
-        texto = texto.replace("tienen", "");
-        texto = texto.replace("tienes", "");
-        texto = texto.replace("vende", "");
-        texto = texto.replace("venden", "");
-        texto = texto.replace("busco", "");
-        texto = texto.replace("quiero", "");
-        texto = texto.replace("necesito", "");
-        texto = texto.replace("mostrar", "");
-        texto = texto.replace("muéstrame", "");
-        texto = texto.replace("me muestras", "");
-        texto = texto.replace("disponible", "");
-        texto = texto.replace("disponibles", "");
-        texto = texto.replace("una", "");
-        texto = texto.replace("un", "");
-        texto = texto.replace("la", "");
-        texto = texto.replace("el", "");
-        texto = texto.replace("los", "");
-        texto = texto.replace("las", "");
-        texto = texto.replace("?", "");
-        texto = texto.replace("¿", "");
-        texto = texto.replace(".", "");
-        texto = texto.replace(",", "");
+        texto = texto.replace("?", "").replace("¿", "").replace(".", "").replace(",", "");
         return texto.trim();
     }
 }
