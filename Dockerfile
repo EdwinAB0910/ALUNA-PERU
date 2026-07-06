@@ -1,5 +1,5 @@
 # Paso 1: Compilar la aplicación con Maven y Java 8
-FROM maven:3.8.8-openjdk-8 AS build
+FROM maven:3.8.6-openjdk-8 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
